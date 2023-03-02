@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom'
-import RegisterLayout from './Layouts/Layouts'
+import RegisterLayout from './Layouts/RegisterLayout'
 import Login from './Pages/Login'
 import ProductList from './Pages/ProductList'
 import Register from './Pages/Register'
