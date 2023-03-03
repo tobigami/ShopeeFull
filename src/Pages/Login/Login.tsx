@@ -1,50 +1,73 @@
-import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { getRules } from 'src/utils/rules'
+import { Link } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
+import Input from 'src/components/Input'
+import { loginSchema } from 'src/utils/rules'
+import { loginAccount } from 'src/apis/auth.api'
+import { isUnprocessableEntity } from 'src/utils/utils'
+import { ResponseApi } from 'src/Types/utils.type'
 
-type Input = {
-  email: string
-  password: string
-}
+type Input = loginSchema
 
 function Login() {
-  const rules = getRules()
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<Input>()
+    formState: { errors },
+    setError
+  } = useForm<Input>({
+    resolver: yupResolver(loginSchema)
+  })
+
+  const loginAccountMutation = useMutation({
+    mutationFn: (body: Input) => loginAccount(body)
+  })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    loginAccountMutation.mutate(data, {
+      onSuccess: (data) => console.log('success', data),
+      onError: (error) => {
+        if (isUnprocessableEntity<ResponseApi<Input>>(error)) {
+          const formErrors = error.response?.data.data
+          if (formErrors) {
+            Object.keys(formErrors).forEach((key) => {
+              setError(key as keyof Input, {
+                message: formErrors[key as keyof Input],
+                type: 'Server'
+              })
+            })
+          }
+        }
+      }
+    })
   })
   return (
     <div className='bg-primary'>
       <div className='container py-4'>
         <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
           <div className='col-span-1 lg:col-span-2 lg:col-start-4 lg:pr-8 '>
-            <form className='mt-2 bg-white rounded shadow-sm p-8' onSubmit={onSubmit}>
+            <form className='mt-2 bg-white rounded shadow-sm p-8' noValidate onSubmit={onSubmit}>
               <div className='text-2xl'>Đăng Nhập</div>
-              <div className='mt-3'>
-                <input
-                  autoComplete='on'
-                  type='text'
-                  placeholder='Enter Your Email'
-                  {...register('email', rules.email)}
-                  className='rounded border border-gray-300 focus:border-gray-500 focus:shadow-sm w-full h-10 p-2 outline-none'
-                ></input>
-                <div className='text-red-600 mt-1 min-h-[1rem] text-sm'>{errors.email?.message}</div>
-              </div>
-              <div className='mt-3'>
-                <input
-                  autoComplete='on'
-                  type='password'
-                  placeholder='Enter Your Password'
-                  {...register('password', rules.password)}
-                  className='rounded  border border-gray-300 focus:border-gray-500 focus:shadow-sm w-full h-10 p-2 outline-none'
-                ></input>
-                <div className='text-red-600 mt-1 min-h-[1rem] text-sm'>{errors.password?.message}</div>
-              </div>
+              <Input
+                register={register}
+                errorsMessage={errors.email?.message}
+                autoComplete='on'
+                className='mt-3'
+                placeholder='Enter your email'
+                name='email'
+                type='email'
+              />
+
+              <Input
+                name='password'
+                type='password'
+                className='mt-3'
+                placeholder='Enter your password'
+                autoComplete='on'
+                errorsMessage={errors.password?.message}
+                register={register}
+              />
               <div className='mt-1'>
                 <button
                   type='submit'

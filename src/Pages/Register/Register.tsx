@@ -4,11 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import Input from 'src/components/Input'
-import { schema, Schema } from 'src/utils/rules'
+import { schema, registerSchema } from 'src/utils/rules'
 import { registerAccount } from 'src/apis/auth.api'
 import { isUnprocessableEntity } from 'src/utils/utils'
 import { ResponseApi } from 'src/Types/utils.type'
-type FormData = Schema
+type FormData = registerSchema
 
 function Register() {
   const {
@@ -31,12 +31,10 @@ function Register() {
       onError: (error) => {
         if (isUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
           const formErrors = error.response?.data.data
-          console.log('fromErrors', formErrors)
 
           if (formErrors) {
             // option 2
             Object.keys(formErrors).forEach((key) => {
-              console.log(typeof key)
               setError(key as keyof Omit<FormData, 'confirm_password'>, {
                 message: formErrors[key as keyof Omit<FormData, 'confirm_password'>],
                 type: 'Server'
@@ -67,7 +65,7 @@ function Register() {
       <div className='container py-4'>
         <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
           <div className='col-span-1 lg:col-span-2 lg:col-start-4 lg:pr-8 '>
-            <form onSubmit={onSubmit} className='mt-2 bg-white rounded shadow-sm p-8'>
+            <form onSubmit={onSubmit} className='mt-2 bg-white rounded shadow-sm p-8' noValidate>
               <div className='text-2xl'>Đăng Ký</div>
               <Input
                 register={register}
@@ -76,7 +74,7 @@ function Register() {
                 className='mt-3'
                 placeholder='Enter your email'
                 name='email'
-                type='text'
+                type='email'
               />
 
               <Input

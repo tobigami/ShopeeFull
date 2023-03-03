@@ -1,3 +1,4 @@
+import { omit } from 'lodash'
 import { type RegisterOptions, type UseFormGetValues } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -78,4 +79,9 @@ export const schema = yup.object({
     .max(160, 'Độ dài từ 6 - 160 kí tự')
     .oneOf([yup.ref('password')], 'Password không khớp')
 })
-export type Schema = yup.InferType<typeof schema>
+
+const registerSchema = schema
+export type registerSchema = yup.InferType<typeof registerSchema>
+
+export const loginSchema = schema.omit(['confirm_password'])
+export type loginSchema = yup.InferType<typeof loginSchema>
