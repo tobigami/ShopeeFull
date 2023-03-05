@@ -1,9 +1,10 @@
 import { Link, useMatch } from 'react-router-dom'
+import { path } from 'src/Constants/path'
 import { LogoIcon } from 'src/Icons'
 
 function RegisterHeader() {
   // const { isAuthenticated } = useContext(AppContext)
-  const match = useMatch('/register')
+  const match = useMatch(path.register)
   const isLogin = Boolean(match)
   return (
     <header className='py-5'>

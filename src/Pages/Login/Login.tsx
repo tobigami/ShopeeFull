@@ -9,12 +9,14 @@ import { isUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/Types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from 'src/Contexts/app.contexts'
+import Button from 'src/components/Button'
+import { path } from 'src/Constants/path'
 
 type Input = loginSchema
 
 function Login() {
   const navigate = useNavigate()
-  const { setAuthenticated } = useContext(AppContext)
+  const { setAuthenticated, setProfile } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -31,9 +33,9 @@ function Login() {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
+        setProfile(data.data.data.user)
         setAuthenticated(true)
         navigate('/')
-        console.log(data)
       },
       onError: (error) => {
         if (isUnprocessableEntity<ErrorResponseApi<Input>>(error)) {
@@ -77,17 +79,24 @@ function Login() {
                 register={register}
               />
               <div className='mt-1'>
-                <button
+                {/* <button
                   type='submit'
                   className='uppercase rounded w-full bg-red-500 text-md text-white text-center px-4 py-3 hover:bg-red-800'
                 >
                   Đăng Nhập
-                </button>
+                </button> */}
+                <Button
+                  isLoading={loginAccountMutation.isLoading}
+                  disabled={loginAccountMutation.isLoading}
+                  className='uppercase rounded w-full bg-red-500 text-md text-white text-center px-4 py-3 hover:bg-red-800'
+                >
+                  Đăng nhập
+                </Button>
               </div>
 
               <div className='mt-8 flex justify-center'>
                 <span className='text-sm text-gray-400'>Bạn chưa có tải khoản?</span>
-                <Link to={'/register'} className='ml-2 text-orange-500 text-md'>
+                <Link to={path.register} className='ml-2 text-orange-500 text-md'>
                   Đăng ký
                 </Link>
               </div>

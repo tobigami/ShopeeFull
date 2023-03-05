@@ -2,16 +2,18 @@ import { useMutation } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { logoutAccount } from 'src/apis/auth.api'
+import { path } from 'src/Constants/path'
 import { AppContext } from 'src/Contexts/app.contexts'
 import { CartIcon, ChevronIcon, GlobalIcon, LogoIcon, SearchIcon } from 'src/Icons'
 import Popover from '../Popover'
 
 function MainHeader() {
-  const { isAuthenticated, setAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setAuthenticated, setProfile, profile } = useContext(AppContext)
   const logoutMutation = useMutation({
     mutationFn: () => logoutAccount(),
     onSuccess: () => {
       setAuthenticated(false)
+      setProfile(null)
     }
   })
   const handleLogout = () => {
@@ -41,7 +43,7 @@ function MainHeader() {
             <Popover
               renderChildren={
                 <div className='bg-white border border-gray-200 shadow-sm py-2 px-3 rounded-md'>
-                  <Link to={'/profile'} className='block py-2 px-2  hover:text-emerald-400'>
+                  <Link to={path.profile} className='block py-2 px-2  hover:text-emerald-400'>
                     Tài khoản của tôi
                   </Link>
                   <Link to={'/'} className='block py-2 px-2  hover:text-emerald-400'>
@@ -61,7 +63,7 @@ function MainHeader() {
                   alt='avatar'
                   className='w-6 h-6 rounded-full'
                 />
-                <span className='px-1'>Tobigami</span>
+                <span className='px-1'>{profile?.email}</span>
               </div>
             </Popover>
           )}

@@ -10,11 +10,13 @@ import { isUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/Types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from 'src/Contexts/app.contexts'
+import Button from 'src/components/Button'
+import { path } from 'src/Constants/path'
 type FormData = registerSchema
 
 function Register() {
   const navigate = useNavigate()
-  const { setAuthenticated } = useContext(AppContext)
+  const { setAuthenticated, setProfile } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -31,7 +33,8 @@ function Register() {
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setProfile(data.data.data.user)
         setAuthenticated(true)
         navigate('/')
       },
@@ -105,17 +108,18 @@ function Register() {
               />
 
               <div className='mt-1'>
-                <button
-                  type='submit'
+                <Button
+                  isLoading={registerAccountMutation.isLoading}
+                  disabled={registerAccountMutation.isLoading}
                   className='uppercase rounded w-full bg-red-500 text-md text-white text-center px-4 py-3 hover:bg-red-800'
                 >
-                  Đăng Ký
-                </button>
+                  Đăng ký
+                </Button>
               </div>
 
               <div className='mt-8 flex justify-center'>
                 <span className='text-sm text-gray-400'>Bạn đã có tải khoản?</span>
-                <Link to={'/login'} className='ml-2 text-orange-500 text-md'>
+                <Link to={path.login} className='ml-2 text-orange-500 text-md'>
                   Đăng nhập
                 </Link>
               </div>
