@@ -1,28 +1,40 @@
 import { useState, useRef, useId, type ElementType } from 'react'
-import { useFloating, offset, arrow, shift, FloatingPortal } from '@floating-ui/react'
+import { useFloating, offset, arrow, shift, FloatingPortal, type Placement } from '@floating-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
   children: React.ReactNode
   renderChildren: React.ReactNode
   as?: ElementType
+  initialState?: boolean
+  placement?: Placement
 }
 
-function Popover({ children, renderChildren, as: Element = 'div' }: Props) {
+function Popover({ children, renderChildren, as: Element = 'div', initialState, placement = 'bottom-end' }: Props) {
+  const shiftByOnePixel = {
+    name: 'shiftByOnePixel',
+    fn: ({ x, y }: { x: number; y: number }) => ({ x: x + 10, y: y + 0 })
+  }
   const id = useId()
   const arrowRef = useRef(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(initialState || false)
   const { x, y, strategy, refs, middlewareData } = useFloating({
     middleware: [
       offset(5),
       shift(),
       arrow({
         element: arrowRef
-      })
-    ]
+      }),
+      shiftByOnePixel
+    ],
+    placement: placement
   })
-  const show = () => setIsOpen(true)
-  const hide = () => setIsOpen(false)
+  const show = () => {
+    setIsOpen(true)
+  }
+  const hide = () => {
+    setIsOpen(false)
+  }
   return (
     <Element
       ref={refs.setReference}
@@ -35,6 +47,7 @@ function Popover({ children, renderChildren, as: Element = 'div' }: Props) {
       {/* popover menu */}
       <FloatingPortal id={id}>
         <AnimatePresence>
+          {/* Floating */}
           {isOpen && (
             <motion.div
               ref={refs.setFloating}
@@ -53,10 +66,10 @@ function Popover({ children, renderChildren, as: Element = 'div' }: Props) {
               {/* arrow */}
               <span
                 ref={arrowRef}
-                className='border-x-transparent border-t-transparent absolute z-10 translate-y-[-95%] border-b-white border-[11px]'
+                className='border-x-transparent border-t-transparent absolute z-10 translate-y-[-95%] translate-x-[-10px] border-b-white border-[11px]'
                 style={{
-                  left: middlewareData.arrow?.x,
-                  top: middlewareData.arrow?.y
+                  top: middlewareData.arrow?.y,
+                  left: middlewareData.arrow?.x
                 }}
               />
               {/* render children */}

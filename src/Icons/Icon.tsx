@@ -15,7 +15,7 @@ export const LogoIcon = ({ className }: Props) => {
   )
 }
 
-export const GlobalIcon = ({ width = 5, height = 5, color, className }: Props) => {
+export const GlobalIcon = ({ width = 5, height = 5, className }: Props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -23,8 +23,7 @@ export const GlobalIcon = ({ width = 5, height = 5, color, className }: Props) =
       viewBox='0 0 24 24'
       strokeWidth={1.5}
       stroke='currentColor'
-      className={`w-${width} h-${height} ${className}`}
-      color={color}
+      className='w-5 h-5'
     >
       <path
         strokeLinecap='round'
@@ -51,7 +50,7 @@ export const ChevronIcon = ({ width = 5, height = 5, color }: Props) => {
   )
 }
 
-export const SearchIcon = ({ width = 5, height = 5, color = 'white', className }: Props) => {
+export const SearchIcon = ({ width = 6, height = 6, color = 'white' }: Props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -59,7 +58,7 @@ export const SearchIcon = ({ width = 5, height = 5, color = 'white', className }
       viewBox='0 0 24 24'
       strokeWidth={1.5}
       stroke='currentColor'
-      className={`w-${width} h-${height} ${className}`}
+      className={`w-${width} h-${height}`}
       color={color}
     >
       <path

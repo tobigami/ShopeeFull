@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
@@ -7,10 +7,14 @@ import Input from 'src/components/Input'
 import { schema, registerSchema } from 'src/utils/rules'
 import { registerAccount } from 'src/apis/auth.api'
 import { isUnprocessableEntity } from 'src/utils/utils'
-import { ResponseApi } from 'src/Types/utils.type'
+import { ErrorResponseApi } from 'src/Types/utils.type'
+import { useContext } from 'react'
+import { AppContext } from 'src/Contexts/app.contexts'
 type FormData = registerSchema
 
 function Register() {
+  const navigate = useNavigate()
+  const { setAuthenticated } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -27,9 +31,12 @@ function Register() {
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
-      onSuccess: (data) => console.log(data),
+      onSuccess: () => {
+        setAuthenticated(true)
+        navigate('/')
+      },
       onError: (error) => {
-        if (isUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+        if (isUnprocessableEntity<ErrorResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
           const formErrors = error.response?.data.data
 
           if (formErrors) {

@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 import { LogoIcon } from 'src/Icons'
 
 function RegisterHeader() {
+  // const { isAuthenticated } = useContext(AppContext)
+  const match = useMatch('/register')
+  const isLogin = Boolean(match)
   return (
     <header className='py-5'>
       <div className='container'>
@@ -9,7 +12,7 @@ function RegisterHeader() {
           <Link to={'/'}>
             <LogoIcon className='fill-primary h-8 lg:h-11' />
           </Link>
-          <div className='text-xl ml-5 lg:text-2xl'>Đăng ký</div>
+          <div className='text-xl ml-5 lg:text-2xl'>{isLogin ? 'Đăng ký' : 'Đăng Nhập'}</div>
         </nav>
       </div>
     </header>
