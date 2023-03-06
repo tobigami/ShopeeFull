@@ -84,7 +84,7 @@ function MainHeader() {
         <div className='grid grid-cols-12 gap-3 items-center py-2'>
           <div className='col-span-2'>
             <Link to={'/'}>
-              <LogoIcon className='fill-white h-8 lg:h-11' />
+              <LogoIcon className='fill-white h-8 lg:h-11 ' />
             </Link>
           </div>
           <form className='col-span-9'>
