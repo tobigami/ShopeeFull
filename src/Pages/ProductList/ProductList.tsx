@@ -1,11 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { getProductList } from 'src/apis/products.api'
+import Pagination from 'src/components/Pagination'
 import { getQueryParams } from 'src/Hooks/GetQueryParams'
 import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
 import SoftProductList from './SoftProductList'
 
 function ProductList() {
+  const [page, setPage] = useState(1)
   const params = getQueryParams()
   const { data } = useQuery({
     queryKey: ['productList', params],
@@ -34,6 +37,9 @@ function ProductList() {
                     </div>
                   )
                 })}
+            </div>
+            <div className='flex items-center justify-center mt-4'>
+              <Pagination page={page} setPage={setPage} pageSize={20} />
             </div>
           </div>
         </div>

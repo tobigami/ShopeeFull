@@ -19,13 +19,13 @@ function Product({ product }: Props) {
           <div className='text-black text-xs line-clamp-2 min-h-[32px]'>{product.name}</div>
           {/* price */}
           <div className='flex items-center flex-row mt-2'>
-            <div className='text-sm flex items-end line-through'>
+            <div className='text-sm flex items-end line-through overflow-hidden'>
               <span className='leading-4'>₫</span>
-              <span>{formatCurrency(product.price_before_discount)}</span>
+              <span className='truncate'>{formatCurrency(product.price_before_discount)}</span>
             </div>
             <div className='text-md flex items-end text-primary ml-3 overflow-hidden'>
               <span className='leading-3'>₫</span>
-              <span className='truncate'>{product.price}</span>
+              <span className='truncate'>{formatCurrency(product.price)}</span>
             </div>
           </div>
           {/* star */}
