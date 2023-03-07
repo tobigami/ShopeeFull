@@ -38,7 +38,7 @@ function Popover({ children, renderChildren, as: Element = 'div', initialState, 
   return (
     <Element
       ref={refs.setReference}
-      className='flex items-center py-2 hover:text-gray-300 cursor-pointer'
+      className='flex cursor-pointer items-center py-2 hover:text-gray-300'
       onMouseEnter={show}
       onMouseLeave={hide}
     >
@@ -66,7 +66,7 @@ function Popover({ children, renderChildren, as: Element = 'div', initialState, 
               {/* arrow */}
               <span
                 ref={arrowRef}
-                className='border-x-transparent border-t-transparent absolute z-10 translate-y-[-95%] translate-x-[-10px] border-b-white border-[11px]'
+                className='absolute z-10 translate-y-[-95%] translate-x-[-10px] border-[11px] border-x-transparent border-t-transparent border-b-white'
                 style={{
                   top: middlewareData.arrow?.y,
                   left: middlewareData.arrow?.x

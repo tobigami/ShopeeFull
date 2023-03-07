@@ -8,12 +8,12 @@ function Button({ isLoading, className, disabled, children, ...rest }: Props) {
   const newClassName = disabled ? className + 'cursor-not-allowed' : className
   return (
     <button className={newClassName} disabled={disabled} {...rest}>
-      <div className='flex justify-center items-end'>
+      <div className='flex items-end justify-center'>
         {isLoading && (
           <div role='status'>
             <svg
               aria-hidden='true'
-              className='w-5 h-5 text-gray-200 animate-spin  fill-blue-600'
+              className='h-5 w-5 animate-spin fill-blue-600  text-gray-200'
               viewBox='0 0 100 101'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'

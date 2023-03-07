@@ -7,7 +7,7 @@ export const path = {
 } as const
 
 export const sortBy = {
-  createAt: 'createAt',
+  createdAt: 'createdAt',
   view: 'view',
   sold: 'sold',
   price: 'price'

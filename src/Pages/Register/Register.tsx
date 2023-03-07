@@ -73,9 +73,9 @@ function Register() {
   return (
     <div className='bg-primary'>
       <div className='container py-4'>
-        <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
+        <div className='grid grid-cols-1 gap-1 lg:grid-cols-5'>
           <div className='col-span-1 lg:col-span-2 lg:col-start-4 lg:pr-8 '>
-            <form onSubmit={onSubmit} className='mt-2 bg-white rounded shadow-sm p-8' noValidate>
+            <form onSubmit={onSubmit} className='mt-2 rounded bg-white p-8 shadow-sm' noValidate>
               <div className='text-2xl'>Đăng Ký</div>
               <Input
                 register={register}
@@ -111,7 +111,7 @@ function Register() {
                 <Button
                   isLoading={registerAccountMutation.isLoading}
                   disabled={registerAccountMutation.isLoading}
-                  className='uppercase rounded w-full bg-red-500 text-md text-white text-center px-4 py-3 hover:bg-red-800'
+                  className='text-md w-full rounded bg-red-500 px-4 py-3 text-center uppercase text-white hover:bg-red-800'
                 >
                   Đăng ký
                 </Button>
@@ -119,7 +119,7 @@ function Register() {
 
               <div className='mt-8 flex justify-center'>
                 <span className='text-sm text-gray-400'>Bạn đã có tải khoản?</span>
-                <Link to={path.login} className='ml-2 text-orange-500 text-md'>
+                <Link to={path.login} className='text-md ml-2 text-orange-500'>
                   Đăng nhập
                 </Link>
               </div>

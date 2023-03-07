@@ -20,16 +20,16 @@ function MainHeader() {
     logoutMutation.mutate()
   }
   return (
-    <div className='bg-primary text-white text-sm'>
+    <div className='bg-primary text-sm text-white'>
       <div className='container'>
-        <div className='flex justify-end items-center'>
+        <div className='flex items-center justify-end'>
           {/* language */}
           <Popover
             renderChildren={
-              <div className='bg-white border border-gray-200 shadow-md rounded '>
+              <div className='rounded border border-gray-200 bg-white shadow-md '>
                 <div className='flex flex-col py-2 px-3'>
-                  <button className='hover:text-primary py-1 px-2 '>Tiếng Việt</button>
-                  <button className='hover:text-primary py-1 px-2'>Tiếng Anh</button>
+                  <button className='py-1 px-2 hover:text-primary '>Tiếng Việt</button>
+                  <button className='py-1 px-2 hover:text-primary'>Tiếng Anh</button>
                 </div>
               </div>
             }
@@ -42,7 +42,7 @@ function MainHeader() {
           {isAuthenticated && (
             <Popover
               renderChildren={
-                <div className='bg-white border border-gray-200 shadow-sm py-2 px-3 rounded-md'>
+                <div className='rounded-md border border-gray-200 bg-white py-2 px-3 shadow-sm'>
                   <Link to={path.profile} className='block py-2 px-2  hover:text-emerald-400'>
                     Tài khoản của tôi
                   </Link>
@@ -50,18 +50,18 @@ function MainHeader() {
                     Đơn mua
                   </Link>
                   <div className='py-2 px-2'>
-                    <button onClick={handleLogout} className='text-left w-full hover:text-emerald-400'>
+                    <button onClick={handleLogout} className='w-full text-left hover:text-emerald-400'>
                       Đăng xuất
                     </button>
                   </div>
                 </div>
               }
             >
-              <div className='flex items-center hover:text-gray-300 cursor-pointer flex-shrink-0 ml-4'>
+              <div className='ml-4 flex flex-shrink-0 cursor-pointer items-center hover:text-gray-300'>
                 <img
                   src='https://64.media.tumblr.com/cb52590d692ca06eabb337e09b7e6a8a/9ce64517d7ffbc55-97/s1280x1920/bcd73dc9c2a920a4775c74bd82009c55a82248fd.jpg'
                   alt='avatar'
-                  className='w-6 h-6 rounded-full'
+                  className='h-6 w-6 rounded-full'
                 />
                 <span className='px-1'>{profile?.email}</span>
               </div>
@@ -69,33 +69,33 @@ function MainHeader() {
           )}
           {!isAuthenticated && (
             <div className='flex items-center py-2'>
-              <Link to='register' className='text-white hover:text-white/70 mx-3'>
+              <Link to='register' className='mx-3 text-white hover:text-white/70'>
                 Đăng Ký
               </Link>
 
-              <div className='border-[1px] border-r-white/40 h-4'></div>
+              <div className='h-4 border-[1px] border-r-white/40'></div>
 
-              <Link to='login' className='text-white hover:text-white/70 mx-3'>
+              <Link to='login' className='mx-3 text-white hover:text-white/70'>
                 Đăng Nhập
               </Link>
             </div>
           )}
         </div>
-        <div className='grid grid-cols-12 gap-3 items-center py-2'>
+        <div className='grid grid-cols-12 items-center gap-3 py-2'>
           <div className='col-span-2'>
             <Link to={'/'}>
-              <LogoIcon className='fill-white h-8 lg:h-11 ' />
+              <LogoIcon className='h-8 fill-white lg:h-11 ' />
             </Link>
           </div>
           <form className='col-span-9'>
-            <div className='bg-white flex flex-shrink-0 text-black rounded-sm min-w-fit'>
+            <div className='flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
               <input
                 type='text'
                 placeholder='Tìm kiếm sản phẩm'
-                className='p-2 outline-none border-none rounded-sm flex-grow'
+                className='flex-grow rounded-sm border-none p-2 outline-none'
                 name='search'
               />
-              <button className='px-4 m-1 bg-primary rounded-sm cursor-pointer hover:opacity-70'>
+              <button className='m-1 cursor-pointer rounded-sm bg-primary px-4 hover:opacity-70'>
                 <SearchIcon color='white' />
               </button>
             </div>
@@ -105,17 +105,17 @@ function MainHeader() {
               // initialState={true}
               renderChildren={
                 // container
-                <div className='bg-white py-4 px-3 max-w-[400px] text-sm shadow-sm border border-gray-300 rounded-md '>
+                <div className='max-w-[400px] rounded-md border border-gray-300 bg-white py-4 px-3 text-sm shadow-sm '>
                   {/* title */}
                   <div className='mt-1 capitalize text-gray-400'>Sản phẩm mới thêm</div>
                   {/* body */}
                   <div className='my-2'>
                     {/* item */}
-                    <div className='flex items-center my-4 p-2 hover:bg-neutral-100'>
+                    <div className='my-4 flex items-center p-2 hover:bg-neutral-100'>
                       {/* avatar */}
-                      <div className='flex-shrink-0 mr-3'>
+                      <div className='mr-3 flex-shrink-0'>
                         <img
-                          className='w-[42px] h-[42px] object-cover'
+                          className='h-[42px] w-[42px] object-cover'
                           src='https://cf.shopee.vn/file/sg-11134201-22100-id42sk79kriv06_tn'
                           alt='product'
                         />
@@ -131,16 +131,16 @@ function MainHeader() {
                     </div>
                   </div>
                   {/* footer */}
-                  <div className='flex justify-between items-center'>
-                    <div className='text-gray-400 capitalize'>Thêm vào giỏ hàng</div>
-                    <div className='bg-primary rounded-sm hover:opacity-90'>
-                      <button className='text-white py-2 px-4 capitalize'>Xem giỏ hàng</button>
+                  <div className='flex items-center justify-between'>
+                    <div className='capitalize text-gray-400'>Thêm vào giỏ hàng</div>
+                    <div className='rounded-sm bg-primary hover:opacity-90'>
+                      <button className='py-2 px-4 capitalize text-white'>Xem giỏ hàng</button>
                     </div>
                   </div>
                 </div>
               }
             >
-              <CartIcon className='w-9 h-9 flex-shrink-0 hover:text-gray-300 cursor-pointer' />
+              <CartIcon className='h-9 w-9 flex-shrink-0 cursor-pointer hover:text-gray-300' />
             </Popover>
           </div>
         </div>

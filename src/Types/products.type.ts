@@ -30,12 +30,16 @@ export interface ProductType {
 export interface ProductListConfig {
   page?: number
   limit?: number
-  order?: 'desc' | 'acs'
-  sort_by?: 'createAt' | 'view' | 'sold' | 'price'
+  order?: 'desc' | 'asc'
+  sort_by?: 'createdAt' | 'view' | 'sold' | 'price'
   category?: string
   exclude?: string
   rating_filter?: number
   price_max?: number
   price_min?: number
   name?: string
+}
+
+export type QueryConfig = {
+  [key in keyof ProductListConfig]: string
 }

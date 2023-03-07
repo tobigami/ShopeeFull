@@ -10,26 +10,26 @@ function Product({ product }: Props) {
   return (
     <Link to='/'>
       {/* container */}
-      <div className='bg-white  hover:shadow-lg overflow-hidden rounded-sm hover:translate-y-[-2px] transition-transform duration-200'>
-        <div className='pt-[100%] w-full relative'>
-          <img className='absolute top-0 left-0 object-cover w-full h-full' src={product.image} alt={product.name} />
+      <div className='overflow-hidden  rounded-sm bg-white transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-lg'>
+        <div className='relative w-full pt-[100%]'>
+          <img className='absolute top-0 left-0 h-full w-full object-cover' src={product.image} alt={product.name} />
         </div>
         {/* description */}
-        <div className='p-2 overflow-hidden'>
-          <div className='text-black text-xs line-clamp-2 min-h-[32px]'>{product.name}</div>
+        <div className='overflow-hidden p-2'>
+          <div className='min-h-[32px] text-xs text-black line-clamp-2'>{product.name}</div>
           {/* price */}
-          <div className='flex items-center flex-row mt-2'>
-            <div className='text-sm flex items-end line-through overflow-hidden'>
+          <div className='mt-2 flex flex-row items-center'>
+            <div className='flex items-end overflow-hidden text-sm line-through'>
               <span className='leading-4'>₫</span>
               <span className='truncate'>{formatCurrency(product.price_before_discount)}</span>
             </div>
-            <div className='text-md flex items-end text-primary ml-3 overflow-hidden'>
+            <div className='text-md ml-3 flex items-end overflow-hidden text-primary'>
               <span className='leading-3'>₫</span>
               <span className='truncate'>{formatCurrency(product.price)}</span>
             </div>
           </div>
           {/* star */}
-          <div className='mt-3 flex justify-end items-center'>
+          <div className='mt-3 flex items-center justify-end'>
             {/* <div className='relative flex'>
               <div className='absolute top-0 left-0 h-full overflow-hidden ' style={{ width: '50%' }}>
                 <svg
@@ -63,7 +63,7 @@ function Product({ product }: Props) {
               </svg>
             </div> */}
             <StarRatting ratting={product.rating} />
-            <div className='ml-1 flex items-end justify-start relative top-[1.5px] text-[12px]'>
+            <div className='relative top-[1.5px] ml-1 flex items-end justify-start text-[12px]'>
               <span className='mr-1'>Đã bán</span>
               <span>{formatNumberToSocialStyle(product.sold)}</span>
             </div>

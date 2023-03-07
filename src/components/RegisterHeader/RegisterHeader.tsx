@@ -11,9 +11,9 @@ function RegisterHeader() {
       <div className='container'>
         <nav className='flex items-end'>
           <Link to={'/'}>
-            <LogoIcon className='fill-primary h-8 lg:h-11' />
+            <LogoIcon className='h-8 fill-primary lg:h-11' />
           </Link>
-          <div className='text-xl ml-5 lg:text-2xl'>{isLogin ? 'Đăng ký' : 'Đăng Nhập'}</div>
+          <div className='ml-5 text-xl lg:text-2xl'>{isLogin ? 'Đăng ký' : 'Đăng Nhập'}</div>
         </nav>
       </div>
     </header>
