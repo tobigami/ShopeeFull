@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import Input from 'src/components/Input'
-import { schema, registerSchema } from 'src/utils/rules'
+import { registerSchemaType, registerSchema } from 'src/utils/rules'
 import { registerAccount } from 'src/apis/auth.api'
 import { isUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/Types/utils.type'
@@ -12,7 +12,8 @@ import { useContext } from 'react'
 import { AppContext } from 'src/Contexts/app.contexts'
 import Button from 'src/components/Button'
 import { path } from 'src/Constants/path'
-type FormData = registerSchema
+// type FormData = Pick<registerSchemaType, 'confirm_password' | 'email' | 'password'>
+type FormData = registerSchemaType
 
 function Register() {
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ function Register() {
     formState: { errors },
     setError
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   })
 
   const registerAccountMutation = useMutation({

@@ -1,4 +1,4 @@
-import { omit } from 'lodash'
+// import { omit } from 'lodash'
 import { type RegisterOptions, type UseFormGetValues } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -60,6 +60,14 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
+function testMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_max, price_min } = this.parent as { price_min: string; price_max: string }
+  if (price_min !== '' && price_max !== '') {
+    return Number(price_min) <= Number(price_max)
+  }
+  return price_max !== '' || price_min !== ''
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -77,11 +85,23 @@ export const schema = yup.object({
     .required('Nhập lại password')
     .min(6, 'Độ dài từ 6 -160 kí tự')
     .max(160, 'Độ dài từ 6 - 160 kí tự')
-    .oneOf([yup.ref('password')], 'Password không khớp')
+    .oneOf([yup.ref('password')], 'Password không khớp'),
+  price_min: yup.string().test({
+    name: 'price-no-allowed',
+    message: 'Giá không phù hợp',
+    test: testMinMax
+  }),
+  price_max: yup.string().test({
+    name: 'price-no-allowed',
+    message: 'Giá không phù hợp',
+    test: testMinMax
+  })
 })
 
-const registerSchema = schema
-export type registerSchema = yup.InferType<typeof registerSchema>
+export type schemaType = yup.InferType<typeof schema>
 
-export const loginSchema = schema.omit(['confirm_password'])
-export type loginSchema = yup.InferType<typeof loginSchema>
+export const registerSchema = schema.omit(['price_max', 'price_min'])
+export type registerSchemaType = yup.InferType<typeof registerSchema>
+
+export const loginSchema = schema.omit(['confirm_password', 'price_max', 'price_min'])
+export type loginSchemaType = yup.InferType<typeof loginSchema>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import Input from 'src/components/Input'
-import { loginSchema } from 'src/utils/rules'
+import { loginSchemaType, loginSchema } from 'src/utils/rules'
 import { loginAccount } from 'src/apis/auth.api'
 import { isUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/Types/utils.type'
@@ -12,7 +12,7 @@ import { AppContext } from 'src/Contexts/app.contexts'
 import Button from 'src/components/Button'
 import { path } from 'src/Constants/path'
 
-type Input = loginSchema
+type Input = loginSchemaType
 
 function Login() {
   const navigate = useNavigate()

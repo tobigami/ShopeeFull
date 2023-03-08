@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import { type } from 'os'
 import { HttpStatusCode } from 'src/Constants/httpStatusCode'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
@@ -24,4 +25,11 @@ export function formatNumberToSocialStyle(value: number) {
     .format(value)
     .replace('.', ',')
     .toLowerCase()
+}
+
+/**
+ * cú pháp `-?` sẽ loại bỏ undefined những key option
+ */
+export type noUndefinedFinder<T> = {
+  [P in keyof T]-?: noUndefinedFinder<NonNullable<T[P]>>
 }
