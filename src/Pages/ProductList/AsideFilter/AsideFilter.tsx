@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import classNames from 'classnames'
+import { omit } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
@@ -9,6 +10,7 @@ import { CategoryType } from 'src/Types/category.type'
 import { QueryConfig } from 'src/Types/products.type'
 import { schema, schemaType } from 'src/utils/rules'
 import { noUndefinedFinder } from 'src/utils/utils'
+import StarSort from '../StarSort'
 
 interface Props {
   categories: CategoryType[]
@@ -35,7 +37,6 @@ function AsideFilter({ categories, queryConfig }: Props) {
     resolver: yupResolver(priceSchema),
     shouldFocusError: false
   })
-  console.log('errors', errors)
 
   const onSubmit = handleSubmit(
     (data) => {
@@ -50,6 +51,13 @@ function AsideFilter({ categories, queryConfig }: Props) {
     //   // console.log('err', err)
     // }
   )
+
+  const removeFilter = () => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(omit(queryConfig, ['category', 'price_max', 'price_min', 'rating_filter'])).toString()
+    })
+  }
 
   return (
     // container
@@ -85,20 +93,6 @@ function AsideFilter({ categories, queryConfig }: Props) {
                   'font-normal text-black': !isActive
                 })}
               >
-                {/* <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='mr-2 h-3 w-3'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                  />
-                </svg> */}
                 <span>{item.name}</span>
               </Link>
             </li>
@@ -181,62 +175,13 @@ function AsideFilter({ categories, queryConfig }: Props) {
       <div className='my-4 h-[1px] w-full bg-gray-400'></div>
       {/* Danh gia */}
       <div className='text-sm'>Đánh giá</div>
-      <ul>
-        <li>
-          <Link to={path.home} className='flex items-center'>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => {
-                return (
-                  <svg
-                    key={index}
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='mr-1 h-4 w-4'
-                    color='yellow'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                )
-              })}
-            <span className='ml-5 text-sm'>Trở lên</span>
-          </Link>
-        </li>
-        <li>
-          <Link to={path.home} className='flex items-center'>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => {
-                return (
-                  <svg
-                    key={index}
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='mr-1 h-4 w-4'
-                    color='red'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                )
-              })}
-            <span className='ml-5 text-sm'>Trở lên</span>
-          </Link>
-        </li>
-      </ul>
-
+      <StarSort queryConfig={queryConfig} />
       {/* fake border */}
       <div className='my-4 h-[1px] w-full bg-gray-400'></div>
-      <Button className='mt-4 flex w-full items-center justify-center rounded-sm bg-primary p-2 capitalize text-white hover:opacity-90'>
+      <Button
+        onClick={removeFilter}
+        className='mt-4 flex w-full items-center justify-center rounded-sm bg-primary p-2 capitalize text-white hover:opacity-90'
+      >
         Xoá tất cả
       </Button>
     </div>

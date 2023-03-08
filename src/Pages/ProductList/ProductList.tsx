@@ -18,6 +18,8 @@ function ProductList() {
       order: params.order,
       sort_by: params.sort_by,
       category: params.category,
+      exclude: params.exclude,
+      rating_filter: params.rating_filter,
       price_max: params.price_max,
       price_min: params.price_min,
       name: params.name
