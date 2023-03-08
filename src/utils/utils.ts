@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios'
-import { type } from 'os'
 import { HttpStatusCode } from 'src/Constants/httpStatusCode'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
@@ -25,6 +24,10 @@ export function formatNumberToSocialStyle(value: number) {
     .format(value)
     .replace('.', ',')
     .toLowerCase()
+}
+
+export function saleValue(before: number, after: number) {
+  return Math.round(((before - after) / before) * 100)
 }
 
 /**

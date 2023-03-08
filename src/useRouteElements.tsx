@@ -5,6 +5,7 @@ import { AppContext } from './Contexts/app.contexts'
 import MainLayout from './Layouts/MainLayout'
 import RegisterLayout from './Layouts/RegisterLayout'
 import Login from './Pages/Login'
+import ProductDetail from './Pages/ProductDetail'
 import ProductList from './Pages/ProductList'
 import Profile from './Pages/Profile'
 import Register from './Pages/Register'
@@ -36,6 +37,14 @@ function useRouteElements() {
       element: (
         <MainLayout>
           <ProductList />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.productDetail,
+      element: (
+        <MainLayout>
+          <ProductDetail />
         </MainLayout>
       )
     },

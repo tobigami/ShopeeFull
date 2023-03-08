@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { isUndefined, omitBy } from 'lodash'
-import { getCategories } from 'src/apis/categori.api'
+import { getCategories } from 'src/apis/category.api'
 import { getProductList } from 'src/apis/products.api'
 import Pagination from 'src/components/Pagination'
 import { getQueryParams } from 'src/Hooks/GetQueryParams'
 import { ProductListConfig, QueryConfig } from 'src/Types/products.type'
-import AsideFilter from './AsideFilter'
-import Product from './Product/Product'
-import SoftProductList from './SoftProductList'
+import AsideFilter from './components/AsideFilter'
+import Product from './components/Product/Product'
+import SoftProductList from './components/SoftProductList'
 
 function ProductList() {
   const params: QueryConfig = getQueryParams()

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import StarRatting from 'src/components/StarRatting'
+import { path } from 'src/Constants/path'
 import { ProductType } from 'src/Types/products.type'
 import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/utils'
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 
 function Product({ product }: Props) {
   return (
-    <Link to='/'>
+    <Link to={`${path.home}${product._id}`}>
       {/* container */}
       <div className='overflow-hidden  rounded-sm bg-white transition-transform duration-200 hover:translate-y-[-2px] hover:shadow-lg'>
         <div className='relative w-full pt-[100%]'>
