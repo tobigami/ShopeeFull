@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { getProductDetail } from 'src/apis/products.api'
@@ -14,6 +14,63 @@ export default function ProductDetail() {
     queryFn: () => getProductDetail(id as string)
   })
   const product = dataProductDetail?.data.data
+
+  const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
+  const [activeImage, setActiveImage] = useState('')
+  const chooseActiveImage = (img: string) => {
+    setActiveImage(img)
+  }
+  useEffect(() => {
+    if (product && product.images.length > 0) {
+      setActiveImage(product.images[0])
+    }
+  }, [product])
+  const currentImages = useMemo(() => {
+    return product ? product.images.slice(...currentIndexImages) : []
+  }, [product, currentIndexImages])
+  const nextImage = () => {
+    if (product && currentIndexImages[1] < product.images.length) {
+      setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1])
+    }
+  }
+
+  const prevImage = () => {
+    if (product && currentIndexImages[0] > 0) {
+      setCurrentIndexImages((prev) => [prev[0] - 1, prev[1] - 1])
+    }
+  }
+
+  const refImage = useRef<HTMLImageElement | null>(null)
+  const handleZoomImage = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // lấy giá trị của toạ độ và độ dài của thẻ div theo window
+    const rect = e.currentTarget.getBoundingClientRect()
+    /**
+     * lấy toạ độ của chuột từ element target lưu ý cách này dùng khi đã sử lý được sự kiển nổi bọt
+     * nếu không sử lý được sự kiện nổi bọt thì offsetX offsetY được xác định như sau
+     * offsetX = e.pageX - (rect.x + window.scrollX)
+     * offsetY = e.pageY - (react.y + window.scrollY)
+     */
+    const { offsetX, offsetY } = e.nativeEvent
+
+    // lấy ra img từ ref
+    const image = refImage.current as HTMLImageElement
+    // lấy kích thước ảnh gốc
+    const { naturalHeight, naturalWidth } = image
+    // style đưa ảnh về kích thước gốc khi hover chuột vào
+    image.style.width = naturalWidth + 'px'
+    image.style.height = naturalHeight + 'px'
+    image.style.maxWidth = 'unset'
+
+    const top = offsetY * (1 - naturalHeight / rect.height)
+    const left = offsetX * (1 - naturalWidth / rect.width)
+
+    image.style.top = top + 'px'
+    image.style.left = left + 'px'
+  }
+
+  const handleRemoveZoom = () => {
+    refImage.current?.removeAttribute('style')
+  }
   if (!product) return null
   return (
     <div className=' bg-gray-300 py-8 '>
@@ -21,12 +78,24 @@ export default function ProductDetail() {
         <div className='grid grid-cols-12 gap-9 rounded-sm bg-white py-10 px-10 shadow-sm'>
           {/* anh san phẩm */}
           <div className='col-span-5'>
-            <div className='relative w-full border border-gray-300 pt-[100%] shadow-sm'>
-              <img src={product?.image} alt={product?.name} className='absolute top-0 left-0 bg-white object-cover' />
+            <div
+              onMouseMove={handleZoomImage}
+              onMouseLeave={handleRemoveZoom}
+              className='relative w-full cursor-zoom-in overflow-hidden border border-gray-300 pt-[100%] shadow-sm'
+            >
+              <img
+                ref={refImage}
+                src={activeImage}
+                alt={product?.name}
+                className='pointer-events-none absolute top-0 left-0 bg-white object-cover'
+              />
             </div>
             <div className='relative mt-6 grid grid-cols-5 gap-4'>
-              {/* right btn */}
-              <button className='absolute left-0 top-1/2 z-10 h-6 w-5 -translate-y-1/2 bg-black/20 text-green-500 outline-none hover:bg-black/50'>
+              {/* left btn */}
+              <button
+                onClick={prevImage}
+                className='absolute left-0 top-1/2 z-10 h-6 w-5 -translate-y-1/2 bg-black/20 text-green-500 outline-none hover:bg-black/50'
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -39,17 +108,25 @@ export default function ProductDetail() {
                 </svg>
               </button>
               {/* 5 image */}
-              {product?.images.slice(0, 5).map((img, index) => {
-                const isActive = index === 0
+              {currentImages.slice(0, 5).map((img) => {
+                const isActive = img === activeImage
                 return (
-                  <div key={img} className='relative col-span-1 w-full pt-[100%] shadow'>
+                  <div
+                    aria-hidden={true}
+                    onClick={() => chooseActiveImage(img)}
+                    key={img}
+                    className='relative col-span-1 w-full pt-[100%] shadow'
+                  >
                     <img src={img} alt={img} className='absolute top-0 left-0 bg-white object-cover' />
                     {isActive && <div className='absolute inset-0 border-2 border-primary' />}
                   </div>
                 )
               })}
-              {/* left btn */}
-              <button className='absolute right-0 top-1/2 z-10 h-6 w-5 -translate-y-1/2 bg-black/20 text-green-500 outline-none hover:bg-black/50'>
+              {/* right btn */}
+              <button
+                onClick={nextImage}
+                className='absolute right-0 top-1/2 z-10 h-6 w-5 -translate-y-1/2 bg-black/20 text-green-500 outline-none hover:bg-black/50'
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
