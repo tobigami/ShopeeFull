@@ -124,7 +124,7 @@ function AsideFilter({ categories, queryConfig }: Props) {
         <div className='my-5'>Khoảng giá</div>
         <div className='flex flex-row items-center justify-center'>
           {/* cách handle khi input k nhận vào register bằng controller - react-hook-form*/}
-          <Controller
+          {/* <Controller
             control={control}
             name='price_min'
             render={({ field }) => (
@@ -142,7 +142,8 @@ function AsideFilter({ categories, queryConfig }: Props) {
                 ref={field.ref}
               />
             )}
-          />
+          /> */}
+          <InputNumber />
           <div className='mx-2 flex-shrink-0'>-</div>
 
           <Controller

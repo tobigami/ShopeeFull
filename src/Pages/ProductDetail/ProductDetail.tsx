@@ -213,13 +213,14 @@ export default function ProductDetail() {
               </div>
             </div>
             {/* so lượng san phẩm */}
-            <QuantityController
+            {/* <QuantityController
               value={buyCount}
               max={product.quantity}
               onIncrease={handleBuyCount}
               onDecrease={handleBuyCount}
               onType={handleBuyCount}
-            />
+            /> */}
+            <QuantityController />
             {/* them vao gio hang, mua ngay */}
             <div className='mt-12 flex items-center'>
               <button
