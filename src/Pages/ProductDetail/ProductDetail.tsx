@@ -1,19 +1,62 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import { getProductDetail } from 'src/apis/products.api'
+import { getProductDetail, getProductList } from 'src/apis/products.api'
 import StarRatting from 'src/components/StarRatting'
-import { formatCurrency, formatNumberToSocialStyle, saleValue } from 'src/utils/utils'
-import InputNumber from 'src/components/InputNumber'
+import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, saleValue } from 'src/utils/utils'
 import DOMPurify from 'dompurify'
+import { ProductListConfig } from 'src/Types/products.type'
+import Product from '../ProductList/components/Product'
+import QuantityController from 'src/components/QuantityController'
+import { addToCartApi } from 'src/apis/purchases.api'
+import { toast } from 'react-toastify'
+import { purchasesStatus } from 'src/Constants/purchases'
+
+interface InputAddToCart {
+  product_id: string
+  buy_count: number
+}
 
 export default function ProductDetail() {
-  const { id } = useParams()
+  const queryClient = useQueryClient()
+  const [buyCount, setBuyCount] = useState(1)
+  const handleBuyCount = (value: number) => {
+    return setBuyCount(value)
+  }
+  // nameId là pathProduct thì mới get được params
+  const { nameId } = useParams()
+
+  const id = getIdFromNameId(nameId as string)
   const { data: dataProductDetail } = useQuery({
     queryKey: ['productDetail', id],
     queryFn: () => getProductDetail(id as string)
   })
   const product = dataProductDetail?.data.data
+  // handle add to cart
+  const addToCart = useMutation({
+    mutationFn: (body: InputAddToCart) => addToCartApi(body)
+  })
+
+  const handleAddToCart = () => {
+    addToCart.mutate(
+      { product_id: product?._id as string, buy_count: buyCount },
+      {
+        onSuccess: (data) => {
+          queryClient.invalidateQueries({ queryKey: ['purchasesList', { status: purchasesStatus.inCart }] })
+          toast.success(data.data.message)
+        }
+      }
+    )
+  }
+
+  const queryConfig: ProductListConfig = { page: 1, limit: 20, category: product?.category._id }
+  // gọi api productList để làm danh sách sản phẩm tương tự
+  const { data } = useQuery({
+    queryKey: ['ProductList', queryConfig],
+    queryFn: () => getProductList(queryConfig),
+    enabled: Boolean(product),
+    staleTime: 3 * 60 * 1000
+  })
 
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
   const [activeImage, setActiveImage] = useState('')
@@ -28,6 +71,7 @@ export default function ProductDetail() {
   const currentImages = useMemo(() => {
     return product ? product.images.slice(...currentIndexImages) : []
   }, [product, currentIndexImages])
+
   const nextImage = () => {
     if (product && currentIndexImages[1] < product.images.length) {
       setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1])
@@ -74,6 +118,7 @@ export default function ProductDetail() {
   if (!product) return null
   return (
     <div className=' bg-gray-300 py-8 '>
+      {/* hinh anh san phẩm */}
       <div className='container'>
         <div className='grid grid-cols-12 gap-9 rounded-sm bg-white py-10 px-10 shadow-sm'>
           {/* anh san phẩm */}
@@ -168,45 +213,19 @@ export default function ProductDetail() {
               </div>
             </div>
             {/* so lượng san phẩm */}
-            <div className='mt-12 flex items-center'>
-              <span className='text-md text-gray-400'>số lượng</span>
-              <div className='ml-4 flex items-center'>
-                <button className='flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white shadow-sm hover:bg-white/70'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='currentColor'
-                    className='h-4 w-4'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
-                  </svg>
-                </button>
-                <InputNumber
-                  value={1}
-                  // className='mx-1'
-                  classError='hidden'
-                  classInput='h-7 w-14  border-t border-b border-gray-400 text-center outline-none'
-                />
-                <button className='shadow-xm flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white hover:bg-white/70'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='currentColor'
-                    className='h-4 w-4'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
-                  </svg>
-                </button>
-              </div>
-              <span className='text-md ml-4 text-gray-400'>{product.quantity} sản phẩm có sẵn</span>
-            </div>
+            <QuantityController
+              value={buyCount}
+              max={product.quantity}
+              onIncrease={handleBuyCount}
+              onDecrease={handleBuyCount}
+              onType={handleBuyCount}
+            />
             {/* them vao gio hang, mua ngay */}
             <div className='mt-12 flex items-center'>
-              <button className='flex items-center justify-center rounded-sm border border-primary bg-primary/10 py-3 px-3 text-lg capitalize text-primary shadow-sm hover:bg-primary/5'>
+              <button
+                onClick={handleAddToCart}
+                className='flex items-center justify-center rounded-sm border border-primary bg-primary/10 py-3 px-3 text-lg capitalize text-primary shadow-sm hover:bg-primary/5'
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -231,6 +250,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+      {/* mo ta san phẩm */}
       <div className='mt-8 py-4'>
         <div className='container'>
           <div className='rounded-sm bg-white py-6 px-6 shadow-sm'>
@@ -242,6 +262,22 @@ export default function ProductDetail() {
                 }}
               ></div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='mt-8 py-4'>
+        <div className='container'>
+          <div className='bg-white'> san pham tuong tu</div>
+
+          <div className='mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            {data?.data.data.products.map((product) => {
+              return (
+                <div className='col-span-1' key={product._id}>
+                  <Product product={product} />
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
