@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -17,15 +17,20 @@ import { formatCurrency } from 'src/utils/utils'
 type SearchInput = searchSchemaType
 
 function MainHeader() {
+  const queryClient = useQueryClient()
   const maxPurchases = 5
   const navigate = useNavigate()
   const queryConfig = UseQueryConfig()
   const { isAuthenticated, setAuthenticated, setProfile, profile } = useContext(AppContext)
+
+  //mutation logout api
   const logoutMutation = useMutation({
     mutationFn: () => logoutAccount(),
     onSuccess: () => {
       setAuthenticated(false)
       setProfile(null)
+      // huỷ call api purchases list khi người dùng logout
+      queryClient.removeQueries({ queryKey: ['purchasesList', { status: purchasesStatus.inCart }] })
     }
   })
 
@@ -36,6 +41,7 @@ function MainHeader() {
     logoutMutation.mutate()
   }
 
+  // handle search submit
   const handleOnSubmit = handleSubmit((data) => {
     if (data) {
       const config = queryConfig.order
@@ -58,7 +64,9 @@ function MainHeader() {
    */
   const { data: PurchasesList } = useQuery({
     queryKey: ['purchasesList', { status: purchasesStatus.inCart }],
-    queryFn: () => getPurchasesApi({ status: purchasesStatus.inCart })
+    queryFn: () => getPurchasesApi({ status: purchasesStatus.inCart }),
+    // chỉ get api purchasesList khi đã đăng nhập vì cần access token khi gọi api này
+    enabled: isAuthenticated
   })
 
   console.log('PurchasesList', PurchasesList)
@@ -152,8 +160,9 @@ function MainHeader() {
                   {/* title */}
                   <div className='mt-1 capitalize text-gray-400'>Sản phẩm mới thêm</div>
 
-                  {PurchasesList ? (
+                  {PurchasesList && PurchasesList.data.data.length > 0 ? (
                     PurchasesList.data.data.slice(0, maxPurchases).map((item) => {
+                      console.log(PurchasesList)
                       return (
                         <div key={item._id}>
                           <div className='my-2'>
@@ -179,7 +188,7 @@ function MainHeader() {
                   ) : (
                     <div className='flex flex-col items-center justify-center py-10 px-10'>
                       <img src='src/assets/Image/no-product.png' alt='1' className=' block h-[200px] w-[200px] p-4' />
-                      <span className='text-sm capitalize text-gray-300'>chưa có sản phẩm</span>
+                      <span className='text-sm capitalize text-gray-400'>chưa có sản phẩm</span>
                     </div>
                   )}
 
@@ -193,7 +202,9 @@ function MainHeader() {
                         Thêm vào giỏ hàng
                       </div>
                       <div className='rounded-sm bg-primary hover:opacity-90'>
-                        <button className='py-2 px-4 capitalize text-white'>Xem giỏ hàng</button>
+                        <Link to={path.cart}>
+                          <button className='py-2 px-4 capitalize text-white'>Xem giỏ hàng</button>
+                        </Link>
                       </div>
                     </div>
                   ) : (
@@ -202,8 +213,8 @@ function MainHeader() {
                 </div>
               }
             >
-              <Link to={'/'} className='relative'>
-                {PurchasesList && PurchasesList.data.data.length > 1 && (
+              <Link to={path.cart} className='relative'>
+                {PurchasesList && PurchasesList.data.data.length > 0 && (
                   <span className='absolute top-[-2px] right-[-10px] rounded-full bg-white px-[6px] py-[1px] text-xs text-primary'>
                     {PurchasesList.data.data.length}
                   </span>
