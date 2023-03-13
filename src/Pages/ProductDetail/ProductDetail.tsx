@@ -89,7 +89,7 @@ export default function ProductDetail() {
     // lấy giá trị của toạ độ và độ dài của thẻ div theo window
     const rect = e.currentTarget.getBoundingClientRect()
     /**
-     * lấy toạ độ của chuột từ element target lưu ý cách này dùng khi đã sử lý được sự kiển nổi bọt
+     * lấy toạ độ của chuột từ element target lưu ý cách này dùng khi đã sử lý được sự kiện nổi bọt
      * nếu không sử lý được sự kiện nổi bọt thì offsetX offsetY được xác định như sau
      * offsetX = e.pageX - (rect.x + window.scrollX)
      * offsetY = e.pageY - (react.y + window.scrollY)
@@ -118,7 +118,7 @@ export default function ProductDetail() {
   if (!product) return null
   return (
     <div className=' bg-gray-300 py-8 '>
-      {/* hinh anh san phẩm */}
+      {/* hình ảnh phẩm */}
       <div className='container'>
         <div className='grid grid-cols-12 gap-9 rounded-sm bg-white py-10 px-10 shadow-sm'>
           {/* anh san phẩm */}
@@ -213,13 +213,17 @@ export default function ProductDetail() {
               </div>
             </div>
             {/* so lượng san phẩm */}
-            <QuantityController
-              value={buyCount}
-              max={product.quantity}
-              onIncrease={handleBuyCount}
-              onDecrease={handleBuyCount}
-              onType={handleBuyCount}
-            />
+            <div className='mt-12 flex items-center'>
+              <span className='text-md mr-4 text-gray-400'>số lượng</span>
+              <QuantityController
+                value={buyCount}
+                max={product.quantity}
+                onIncrease={handleBuyCount}
+                onDecrease={handleBuyCount}
+                onType={handleBuyCount}
+              />
+              <span className='text-md ml-4 text-gray-400'>{product.quantity} sản phẩm có sẵn</span>
+            </div>
             {/* them vao gio hang, mua ngay */}
             <div className='mt-12 flex items-center'>
               <button
@@ -250,7 +254,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      {/* mo ta san phẩm */}
+      {/* mô tả sản phẩm */}
       <div className='mt-8 py-4'>
         <div className='container'>
           <div className='rounded-sm bg-white py-6 px-6 shadow-sm'>
@@ -268,7 +272,7 @@ export default function ProductDetail() {
 
       <div className='mt-8 py-4'>
         <div className='container'>
-          <div className='bg-white'> san pham tuong tu</div>
+          <div className='bg-white capitalize'>sản phẩm tương tự</div>
 
           <div className='mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
             {data?.data.data.products.map((product) => {

@@ -6,6 +6,7 @@ interface Props extends InputNumberProps {
   onIncrease?: (value: number) => void
   onDecrease?: (value: number) => void
   onType?: (value: number) => void
+  onFocusOut?: (value: number) => void
   classWrapper?: string
 }
 
@@ -13,13 +14,13 @@ export default function QuantityController({
   onIncrease,
   onType,
   onDecrease,
+  onFocusOut,
   classWrapper,
   value,
   max,
   ...rest
 }: Props) {
   const [localValue, setLocalValue] = useState<number>(Number(value || 0))
-  console.log('localValue', localValue)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let _value = Number(e.target.value)
     if (max !== undefined && _value > max) {
@@ -29,6 +30,10 @@ export default function QuantityController({
     }
     onType && onType(_value)
     setLocalValue(_value)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    onFocusOut && onFocusOut(Number(e.target.value))
   }
 
   const increase = () => {
@@ -49,48 +54,46 @@ export default function QuantityController({
     setLocalValue(_value)
   }
   return (
-    <div className={`mt-12 flex items-center ${classWrapper}`}>
-      <span className='text-md text-gray-400'>số lượng</span>
-      <div className='ml-4 flex items-center'>
-        <button
-          onClick={decrease}
-          className='flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white shadow-sm hover:bg-white/70'
+    <div className={`flex items-center ${classWrapper}`}>
+      <button
+        onClick={decrease}
+        className='flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white shadow-sm hover:bg-white/70'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='h-4 w-4'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='h-4 w-4'
-          >
-            <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
-          </svg>
-        </button>
-        <InputNumber
-          onChange={handleChange}
-          classError='hidden'
-          classInput='h-7 w-14  border-t border-b border-gray-400 text-center outline-none'
-          value={value || localValue}
-          {...rest}
-        />
-        <button
-          onClick={increase}
-          className='shadow-xm flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white hover:bg-white/70'
+          <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
+        </svg>
+      </button>
+      <InputNumber
+        onChange={handleChange}
+        className=''
+        classError='hidden'
+        classInput='h-7 w-12 p-1  border-t border-b border-gray-400 text-center outline-none'
+        value={value || localValue}
+        onBlur={handleBlur}
+        {...rest}
+      />
+      <button
+        onClick={increase}
+        className='shadow-xm flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white hover:bg-white/70'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='h-4 w-4'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='h-4 w-4'
-          >
-            <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
-          </svg>
-        </button>
-      </div>
-      <span className='text-md ml-4 text-gray-400'>{max} sản phẩm có sẵn</span>
+          <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
+        </svg>
+      </button>
     </div>
   )
 }

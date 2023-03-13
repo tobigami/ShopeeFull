@@ -7,7 +7,7 @@ export const UseQueryConfig = () => {
   const queryConfig: QueryConfig = omitBy(
     {
       page: params.page || '1',
-      limit: params.limit || '5',
+      limit: params.limit || '10',
       order: params.order,
       sort_by: params.sort_by,
       category: params.category,

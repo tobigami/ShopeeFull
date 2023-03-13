@@ -10,7 +10,7 @@ function Button({ isLoading, className, disabled, children, ...rest }: Props) {
     <button className={newClassName} disabled={disabled} {...rest}>
       <div className='flex items-end justify-center'>
         {isLoading && (
-          <div role='status'>
+          <div role='status' className='mr-2'>
             <svg
               aria-hidden='true'
               className='h-5 w-5 animate-spin fill-blue-600  text-gray-200'
@@ -30,7 +30,7 @@ function Button({ isLoading, className, disabled, children, ...rest }: Props) {
             <span className='sr-only'>Loading...</span>
           </div>
         )}
-        <div className='ml-2'>{children}</div>
+        <div>{children}</div>
       </div>
     </button>
   )

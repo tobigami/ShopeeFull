@@ -12,7 +12,7 @@ import { searchSchema, searchSchemaType } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
 import { purchasesStatus } from 'src/Constants/purchases'
-import { getPurchasesApi } from 'src/apis/purchases.api'
+import { getPurchasesListApi } from 'src/apis/purchases.api'
 import { formatCurrency } from 'src/utils/utils'
 type SearchInput = searchSchemaType
 
@@ -64,12 +64,11 @@ function MainHeader() {
    */
   const { data: PurchasesList } = useQuery({
     queryKey: ['purchasesList', { status: purchasesStatus.inCart }],
-    queryFn: () => getPurchasesApi({ status: purchasesStatus.inCart }),
+    queryFn: () => getPurchasesListApi({ status: purchasesStatus.inCart }),
     // chỉ get api purchasesList khi đã đăng nhập vì cần access token khi gọi api này
     enabled: isAuthenticated
   })
 
-  console.log('PurchasesList', PurchasesList)
   return (
     <div className='bg-primary text-sm text-white'>
       <div className='container'>
@@ -162,7 +161,6 @@ function MainHeader() {
 
                   {PurchasesList && PurchasesList.data.data.length > 0 ? (
                     PurchasesList.data.data.slice(0, maxPurchases).map((item) => {
-                      console.log(PurchasesList)
                       return (
                         <div key={item._id}>
                           <div className='my-2'>
