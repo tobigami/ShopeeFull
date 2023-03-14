@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getProductDetail, getProductList } from 'src/apis/products.api'
 import StarRatting from 'src/components/StarRatting'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, saleValue } from 'src/utils/utils'
@@ -11,6 +11,7 @@ import QuantityController from 'src/components/QuantityController'
 import { addToCartApi } from 'src/apis/purchases.api'
 import { toast } from 'react-toastify'
 import { purchasesStatus } from 'src/Constants/purchases'
+import { path } from 'src/Constants/path'
 
 interface InputAddToCart {
   product_id: string
@@ -18,6 +19,7 @@ interface InputAddToCart {
 }
 
 export default function ProductDetail() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [buyCount, setBuyCount] = useState(1)
   const handleBuyCount = (value: number) => {
@@ -47,6 +49,15 @@ export default function ProductDetail() {
         }
       }
     )
+  }
+
+  const buyNow = async () => {
+    const res = await addToCart.mutateAsync({ product_id: product?._id as string, buy_count: buyCount })
+    navigate(path.cart, {
+      state: {
+        purchaseId: res.data.data._id
+      }
+    })
   }
 
   const queryConfig: ProductListConfig = { page: 1, limit: 20, category: product?.category._id }
@@ -247,7 +258,10 @@ export default function ProductDetail() {
                 <span>Thêm vào giỏ hàng</span>
               </button>
 
-              <button className='ml-4 flex items-center justify-center rounded-sm border border-primary bg-primary py-3 px-3 text-lg capitalize text-white shadow-sm hover:bg-primary/70'>
+              <button
+                onClick={buyNow}
+                className='ml-4 flex items-center justify-center rounded-sm border border-primary bg-primary py-3 px-3 text-lg capitalize text-white shadow-sm hover:bg-primary/70'
+              >
                 <span>mua ngay</span>
               </button>
             </div>

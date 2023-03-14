@@ -1,51 +1,69 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { produce } from 'immer'
 import { keyBy } from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useMemo } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { buyPurchasesApi, deletePurchasesApi, getPurchasesListApi, updatePurchaseApi } from 'src/apis/purchases.api'
 import Button from 'src/components/Button'
 import QuantityController from 'src/components/QuantityController'
 import { path } from 'src/Constants/path'
 import { purchasesStatus } from 'src/Constants/purchases'
+import { AppContext } from 'src/Contexts/app.contexts'
 import { PurchasesType } from 'src/Types/purchases.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
 
-interface ExtendPurchasesType extends PurchasesType {
-  disable: boolean
-  checked: boolean
-}
-
 export default function Cart() {
   const queryClient = useQueryClient()
-  const [ExtendPurchases, setExtendPurchases] = useState<ExtendPurchasesType[]>([])
+  const { ExtendPurchases, setExtendPurchases } = useContext(AppContext)
   const { data: dataPurchases, refetch } = useQuery({
     queryKey: ['PurchasesListInCart', { status: purchasesStatus.inCart }],
-    queryFn: () => getPurchasesListApi({ status: purchasesStatus.inCart })
+    queryFn: () => getPurchasesListApi({ status: purchasesStatus.inCart }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['purchasesList', { status: purchasesStatus.inCart }] })
+    }
   })
-
   const purchasesList = dataPurchases?.data.data
+
+  const location = useLocation()
+  const purchaseIdFromBuyNow = (location.state as { purchaseId: string | null })?.purchaseId
+
   useEffect(() => {
     setExtendPurchases((pre) => {
       const temp = keyBy(pre, '_id')
       return (
         purchasesList?.map((item) => {
-          return { ...item, disable: false, checked: Boolean(temp[item._id]?.checked) }
+          const isPurchaseFromBuyNow = purchaseIdFromBuyNow === item._id
+          return { ...item, disable: false, checked: isPurchaseFromBuyNow || Boolean(temp[item._id]?.checked) }
         }) || []
       )
     })
-  }, [purchasesList])
+  }, [purchasesList, purchaseIdFromBuyNow, setExtendPurchases])
+
+  useEffect(() => {
+    // clear up function reset location state khi f5
+    return () => {
+      history.replaceState(null, '')
+    }
+  }, [])
 
   const purchasesCheckedList = ExtendPurchases.filter((item) => item.checked)
   const purchasesCheckedListLength = purchasesCheckedList.length
-  const totalPricePurchaseChecked = purchasesCheckedList.reduce((result, current) => {
-    return result + current.price * current.buy_count
-  }, 0)
+  const totalPricePurchaseChecked = useMemo(
+    () =>
+      purchasesCheckedList.reduce((result, current) => {
+        return result + current.price * current.buy_count
+      }, 0),
+    [purchasesCheckedList]
+  )
 
-  const totalPriceSavingPurchaseChecked = purchasesCheckedList.reduce((result, current) => {
-    return result + (current.price_before_discount - current.price) * current.buy_count
-  }, 0)
+  const totalPriceSavingPurchaseChecked = useMemo(
+    () =>
+      purchasesCheckedList.reduce((result, current) => {
+        return result + (current.price_before_discount - current.price) * current.buy_count
+      }, 0),
+    [purchasesCheckedList]
+  )
 
   const handleCheck = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setExtendPurchases(
@@ -54,7 +72,7 @@ export default function Cart() {
       })
     )
   }
-  const isCheckAll = ExtendPurchases.every((item) => item.checked)
+  const isCheckAll = useMemo(() => ExtendPurchases.every((item) => item.checked), [ExtendPurchases])
   const handleCheckAll = () => {
     setExtendPurchases(
       produce((draft) => {
@@ -160,7 +178,7 @@ export default function Cart() {
               </div>
             </div>
             {/* body */}
-            {purchasesList.length > 0 && (
+            {purchasesList.length > 0 ? (
               <div className='bg-white p-3'>
                 {ExtendPurchases.map((item, index) => {
                   return (
@@ -230,6 +248,20 @@ export default function Cart() {
                     </div>
                   )
                 })}
+              </div>
+            ) : (
+              <div className='flex flex-col items-center justify-center'>
+                <div>
+                  <img src='src/assets/Image/no-product.png' alt='1' />
+                </div>
+                <div className='mt-4 text-xl capitalize text-black'>Giỏ hàng của bạn trống</div>
+
+                <Link
+                  to={'/'}
+                  className='text-md mt-4 rounded-sm bg-primary px-8 py-4 uppercase text-white hover:cursor-pointer hover:bg-primary/70'
+                >
+                  Mua ngay
+                </Link>
               </div>
             )}
           </div>
