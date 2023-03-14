@@ -1,66 +1,30 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
-import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { logoutAccount } from 'src/apis/auth.api'
+import { Link } from 'react-router-dom'
 import { path } from 'src/Constants/path'
 import { AppContext } from 'src/Contexts/app.contexts'
-import { UseQueryConfig } from 'src/Hooks/useQueryConfig'
-import { CartIcon, ChevronIcon, GlobalIcon, LogoIcon, SearchIcon } from 'src/Icons'
+import { CartIcon, LogoIcon, SearchIcon } from 'src/Icons'
 import Popover from '../Popover'
-import { searchSchema, searchSchemaType } from 'src/utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { omit } from 'lodash'
 import { purchasesStatus } from 'src/Constants/purchases'
 import { getPurchasesListApi } from 'src/apis/purchases.api'
 import { formatCurrency } from 'src/utils/utils'
-type SearchInput = searchSchemaType
+import useSearchProduct from 'src/Hooks/useSearchProduct'
+import NavHeader from '../NavHeader'
 
 function MainHeader() {
-  const queryClient = useQueryClient()
   const maxPurchases = 5
-  const navigate = useNavigate()
-  const queryConfig = UseQueryConfig()
-  const { isAuthenticated, setAuthenticated, setProfile, profile } = useContext(AppContext)
-
-  //mutation logout api
-  const logoutMutation = useMutation({
-    mutationFn: () => logoutAccount(),
-    onSuccess: () => {
-      setAuthenticated(false)
-      setProfile(null)
-      // huỷ call api purchases list khi người dùng logout
-      queryClient.removeQueries({ queryKey: ['purchasesList', { status: purchasesStatus.inCart }] })
-    }
-  })
-
-  const { register, handleSubmit } = useForm<SearchInput>({
-    resolver: yupResolver(searchSchema)
-  })
-  const handleLogout = () => {
-    logoutMutation.mutate()
-  }
+  const { isAuthenticated } = useContext(AppContext)
 
   // handle search submit
-  const handleOnSubmit = handleSubmit((data) => {
-    if (data) {
-      const config = queryConfig.order
-        ? omit({ ...queryConfig, name: data.name }, ['order', 'sort_by'])
-        : { ...queryConfig, name: data.name }
+  const { register, handleOnSubmit } = useSearchProduct()
 
-      navigate({
-        pathname: path.home,
-        search: createSearchParams({ ...config }).toString()
-      })
-    }
-  })
   // get purchasesList
   /**
    * khi chúng ta chuyển trang thì main header chị bị re-render chứ k bị
    * unmount và mounting lại
    * trừ trường hợp logout và nhảy sang login hoặc register
    * nên những query này sẽ k bị inActive => không bị gọi lại, vì thế
-   * k cần cần set staletime
+   * k cần cần set stale time
    */
   const { data: PurchasesList } = useQuery({
     queryKey: ['purchasesList', { status: purchasesStatus.inCart }],
@@ -72,71 +36,14 @@ function MainHeader() {
   return (
     <div className='bg-primary text-sm text-white'>
       <div className='container'>
-        <div className='flex items-center justify-end'>
-          {/* language */}
-          <Popover
-            renderChildren={
-              <div className='rounded border border-gray-200 bg-white shadow-md '>
-                <div className='flex flex-col py-2 px-3'>
-                  <button className='py-1 px-2 hover:text-primary '>Tiếng Việt</button>
-                  <button className='py-1 px-2 hover:text-primary'>Tiếng Anh</button>
-                </div>
-              </div>
-            }
-          >
-            <GlobalIcon />
-            <span className='px-1'>English</span>
-            <ChevronIcon />
-          </Popover>
-          {/* username */}
-          {isAuthenticated && (
-            <Popover
-              renderChildren={
-                <div className='rounded-md border border-gray-200 bg-white py-2 px-3 shadow-sm'>
-                  <Link to={path.profile} className='block py-2 px-2  hover:text-emerald-400'>
-                    Tài khoản của tôi
-                  </Link>
-                  <Link to={'/'} className='block py-2 px-2  hover:text-emerald-400'>
-                    Đơn mua
-                  </Link>
-                  <div className='py-2 px-2'>
-                    <button onClick={handleLogout} className='w-full text-left hover:text-emerald-400'>
-                      Đăng xuất
-                    </button>
-                  </div>
-                </div>
-              }
-            >
-              <div className='ml-4 flex flex-shrink-0 cursor-pointer items-center hover:text-gray-300'>
-                <img
-                  src='https://64.media.tumblr.com/cb52590d692ca06eabb337e09b7e6a8a/9ce64517d7ffbc55-97/s1280x1920/bcd73dc9c2a920a4775c74bd82009c55a82248fd.jpg'
-                  alt='avatar'
-                  className='h-6 w-6 rounded-full'
-                />
-                <span className='px-1'>{profile?.email}</span>
-              </div>
-            </Popover>
-          )}
-          {!isAuthenticated && (
-            <div className='flex items-center py-2'>
-              <Link to='/register' className='mx-3 text-white hover:text-white/70'>
-                Đăng Ký
-              </Link>
-
-              <div className='h-4 border-[1px] border-r-white/40'></div>
-
-              <Link to={path.login} className='mx-3 text-white hover:text-white/70'>
-                Đăng Nhập
-              </Link>
-            </div>
-          )}
-        </div>
+        <NavHeader />
         <div className='grid grid-cols-12 items-center gap-3 py-2'>
           <div className='col-span-2'>
             <Link to={'/'}>
               <LogoIcon className='h-8 fill-white lg:h-11 ' />
             </Link>
           </div>
+          {/* search input */}
           <form onSubmit={handleOnSubmit} className='col-span-9'>
             <div className='flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
               <input
