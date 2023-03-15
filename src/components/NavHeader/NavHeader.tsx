@@ -44,10 +44,10 @@ export default function NavHeader() {
         <Popover
           renderChildren={
             <div className='rounded-md border border-gray-200 bg-white py-2 px-3 shadow-sm'>
-              <Link to={path.profile} className='block py-2 px-2  hover:text-emerald-400'>
+              <Link to={path.user} className='block py-2 px-2  hover:text-emerald-400'>
                 Tài khoản của tôi
               </Link>
-              <Link to={'/'} className='block py-2 px-2  hover:text-emerald-400'>
+              <Link to={path.historyPurchase} className='block py-2 px-2  hover:text-emerald-400'>
                 Đơn mua
               </Link>
               <div className='py-2 px-2'>

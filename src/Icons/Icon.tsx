@@ -15,7 +15,7 @@ export const LogoIcon = ({ className }: Props) => {
   )
 }
 
-export const GlobalIcon = ({ width = 5, height = 5, className }: Props) => {
+export const GlobalIcon = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -134,6 +134,75 @@ export const StarNoColor = () => {
         stroke='url(#star__hollow)'
         strokeWidth={2}
         d='M23.226809 28.390899l-1.543364-9.5505903 6.600997-6.8291523-9.116272-1.4059447-4.01304-8.63019038-4.013041 8.63019038-9.116271 1.4059447 6.600997 6.8291523-1.543364 9.5505903 8.071679-4.5038874 8.071679 4.5038874z'
+      />
+    </svg>
+  )
+}
+
+export const UserIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      fill='none'
+      viewBox='0 0 24 24'
+      strokeWidth={1.5}
+      stroke='currentColor'
+      className='h-5 w-5 stroke-blue-500'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z'
+      />
+    </svg>
+  )
+}
+
+export const PasswordIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      fill='none'
+      viewBox='0 0 24 24'
+      strokeWidth={1.5}
+      stroke='currentColor'
+      className='h-5 w-5 stroke-blue-500'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z'
+      />
+    </svg>
+  )
+}
+
+export const PurchaseIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      fill='none'
+      viewBox='0 0 24 24'
+      strokeWidth={1.5}
+      stroke='currentColor'
+      className='h-5 w-5 stroke-blue-500'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+      />
+    </svg>
+  )
+}
+
+export const PenIcon = () => {
+  return (
+    <svg width={12} height={12} viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg' style={{ marginRight: 4 }}>
+      <path
+        d='M8.54 0L6.987 1.56l3.46 3.48L12 3.48M0 8.52l.073 3.428L3.46 12l6.21-6.18-3.46-3.48'
+        fill='#9B9B9B'
+        fillRule='evenodd'
       />
     </svg>
   )

@@ -1,5 +1,19 @@
 import { User } from 'src/Types/user.type'
 
+/**
+ * xử lý vấn đề khi access token bị hết hạn
+ * thì cần clear access token trong local storage và trong context api
+ * khi clearLS thì sẽ tạo ra 1 event có type là `clearLSEvent`
+ * và ở App.tsx sẽ lắng nghe sự kiện đó và thực hiện reset trong context api
+ */
+export const localStorageEventTarget = new EventTarget()
+
+export const clearLS = () => {
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('profile')
+  localStorageEventTarget.dispatchEvent(new Event('clearLSEvent'))
+}
+
 // handle access token
 export const setAccessToken = (access_token: string) => {
   localStorage.setItem('access_token', access_token)
@@ -7,11 +21,6 @@ export const setAccessToken = (access_token: string) => {
 
 export const getAccessToken = () => {
   return localStorage.getItem('access_token') || ''
-}
-
-export const clearLS = () => {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('profile')
 }
 
 // handle profile

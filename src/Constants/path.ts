@@ -3,9 +3,12 @@ export const path = {
   login: '/login',
   register: '/register',
   logout: '/logout',
-  profile: '/profile',
   productDetail: ':nameId',
-  cart: '/cart'
+  cart: '/cart',
+  user: '/user',
+  profile: '/user/profile',
+  changePassword: '/user/password',
+  historyPurchase: '/user/purchase'
 } as const
 
 export const sortBy = {

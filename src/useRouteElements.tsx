@@ -8,8 +8,11 @@ import Cart from './Pages/Cart'
 import Login from './Pages/Login'
 import ProductDetail from './Pages/ProductDetail'
 import ProductList from './Pages/ProductList'
-import Profile from './Pages/Profile'
 import Register from './Pages/Register'
+import UserLayout from './Pages/User/Layouts'
+import ChangePassword from './Pages/User/Pages/ChangePassword'
+import History from './Pages/User/Pages/History'
+import Profile from './Pages/User/Pages/Profile'
 
 /**
  * Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -58,20 +61,34 @@ function useRouteElements() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: path.profile,
-          element: (
-            <MainLayout>
-              <Profile />
-            </MainLayout>
-          )
-        },
-        {
           path: path.cart,
           element: (
             <MainLayout>
               <Cart />
             </MainLayout>
           )
+        },
+        {
+          path: path.user,
+          element: (
+            <MainLayout>
+              <UserLayout />
+            </MainLayout>
+          ),
+          children: [
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            },
+            {
+              path: path.historyPurchase,
+              element: <History />
+            }
+          ]
         }
       ]
     },
