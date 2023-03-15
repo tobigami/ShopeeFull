@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from 'src/Constants/path'
+import { AppContext } from 'src/Contexts/app.contexts'
 import { PasswordIcon, PenIcon, PurchaseIcon, UserIcon } from 'src/Icons'
+import noImage from 'src/assets/Image/no-image.png'
 
 export default function UserSideNav() {
+  const { profile } = useContext(AppContext)
   return (
     <div className='pt-4'>
       <div className='border-b border-gray-400 pb-4'>
         <Link to={path.profile} className='flex items-center'>
           <div className='h-[42px] w-[42px] flex-shrink-0'>
-            <img
-              src='https://64.media.tumblr.com/cb52590d692ca06eabb337e09b7e6a8a/9ce64517d7ffbc55-97/s1280x1920/bcd73dc9c2a920a4775c74bd82009c55a82248fd.jpg'
-              alt='avatar'
-              className='rounded-full object-cover'
-            />
+            <img src={profile?.avatar || noImage} alt='avatar' className='rounded-full object-cover' />
           </div>
           <div className='ml-3 flex flex-grow flex-col items-start justify-center'>
-            <div className='text-sm font-semibold'>thanhdd</div>
+            <div className='text-sm font-semibold'>{profile?.name}</div>
             <div className='flex items-center text-sm capitalize text-gray-600'>
               <PenIcon />
               sửa hồ sơ
