@@ -134,6 +134,7 @@ function AsideFilter({ categories, queryConfig }: Props) {
                 placeholder='Từ'
                 type='text'
                 classError='hidden'
+                // khi price_min on change thì sẽ trigger đến price_max để nó check lại dk theo schema
                 onChange={(e) => {
                   field.onChange(e)
                   trigger('price_max')
