@@ -1,9 +1,10 @@
+import classNames from 'classnames'
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { path } from 'src/Constants/path'
 import { AppContext } from 'src/Contexts/app.contexts'
 import { PasswordIcon, PenIcon, PurchaseIcon, UserIcon } from 'src/Icons'
-import noImage from 'src/assets/Image/no-image.png'
+import { getAvatarUrl } from 'src/utils/utils'
 
 export default function UserSideNav() {
   const { profile } = useContext(AppContext)
@@ -12,7 +13,7 @@ export default function UserSideNav() {
       <div className='border-b border-gray-400 pb-4'>
         <Link to={path.profile} className='flex items-center'>
           <div className='h-[42px] w-[42px] flex-shrink-0'>
-            <img src={profile?.avatar || noImage} alt='avatar' className='rounded-full object-cover' />
+            <img src={getAvatarUrl(profile?.avatar)} alt='avatar' className='rounded-full object-cover' />
           </div>
           <div className='ml-3 flex flex-grow flex-col items-start justify-center'>
             <div className='text-sm font-semibold'>{profile?.name}</div>
@@ -26,23 +27,47 @@ export default function UserSideNav() {
 
       <div>
         {/* link 1 */}
-        <Link to={path.profile} className='mt-3 flex items-center'>
+        <NavLink
+          to={path.profile}
+          className={({ isActive }) => {
+            return classNames('mt-3 flex items-center', {
+              'text-primary': isActive,
+              'text-black': !isActive
+            })
+          }}
+        >
           <UserIcon />
-          <div className='ml-2 text-sm capitalize leading-5 text-primary'>tài khoản của tôi</div>
-        </Link>
+          <div className='ml-2 text-sm capitalize leading-5 '>tài khoản của tôi</div>
+        </NavLink>
 
-        {/* link 2 */}
-        <Link to={path.changePassword} className='mt-3 flex items-center'>
+        {/* NavLink 2 */}
+        <NavLink
+          to={path.changePassword}
+          className={({ isActive }) => {
+            return classNames('mt-3 flex items-center', {
+              'text-primary': isActive,
+              'text-black': !isActive
+            })
+          }}
+        >
           <PasswordIcon />
 
-          <div className='ml-2 text-sm capitalize leading-5 text-black'>đổi mật khẩu</div>
-        </Link>
+          <div className='ml-2 text-sm capitalize leading-5 '>đổi mật khẩu</div>
+        </NavLink>
 
-        {/* link 3 */}
-        <Link to={path.historyPurchase} className='mt-3 flex items-center'>
+        {/* NavLink 3 */}
+        <NavLink
+          to={path.historyPurchase}
+          className={({ isActive }) => {
+            return classNames('mt-3 flex items-center', {
+              'text-primary': isActive,
+              'text-black': !isActive
+            })
+          }}
+        >
           <PurchaseIcon />
-          <div className='ml-2 text-sm capitalize leading-5 text-black'>đơn mua</div>
-        </Link>
+          <div className='ml-2 text-sm capitalize leading-5 '>đơn mua</div>
+        </NavLink>
       </div>
     </div>
   )
