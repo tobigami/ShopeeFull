@@ -105,9 +105,22 @@ const userSchema = yup.object({
   phone: yup.string().max(20, 'Độ dài tối đa 20 kí tự'),
   avatar: yup.string().max(1000, 'Độ dài tối đa 1000 kí tự'),
   date_of_birth: yup.date().max(new Date(), 'Ngày sinh không hợp lệ'),
-  password: schema.fields['password'],
-  new_password: schema.fields['password'],
-  confirm_password: schema.fields['confirm_password']
+  password: yup
+    .string()
+    .required('Bạn chưa nhập password')
+    .min(6, 'Độ dài từ từ 6 - 160 kí tự')
+    .max(160, 'Độ dài từ 6 - 160 kí tự'),
+  new_password: yup
+    .string()
+    .required('Bạn chưa nhập password')
+    .min(6, 'Độ dài từ từ 6 - 160 kí tự')
+    .max(160, 'Độ dài từ 6 - 160 kí tự'),
+  confirm_password: yup
+    .string()
+    .required('Nhập lại password')
+    .min(6, 'Độ dài từ 6 -160 kí tự')
+    .max(160, 'Độ dài từ 6 - 160 kí tự')
+    .oneOf([yup.ref('new_password')], 'Password không khớp')
 })
 
 export type schemaType = yup.InferType<typeof schema>
@@ -124,3 +137,8 @@ export type searchSchemaType = yup.InferType<typeof searchSchema>
 // export schema User
 export const userSchemaInfo = userSchema.pick(['name', 'address', 'phone', 'avatar', 'date_of_birth'])
 export type userSchemaInfoType = yup.InferType<typeof userSchemaInfo>
+
+// export schema User ChangePassWord
+export const userChangePassWordSchema = userSchema.pick(['password', 'new_password', 'confirm_password'])
+
+export type userChangePassWordType = yup.InferType<typeof userChangePassWordSchema>
