@@ -3,22 +3,28 @@ import { useForm, Controller } from 'react-hook-form'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import { userSchemaInfo, userSchemaInfoType } from 'src/utils/rules'
-import { bodyUpdateMeType, getMeProfileAPI, updateMeProfileAPI } from 'src/apis/profile.api'
+import { bodyUpdateMeType, getMeProfileAPI, updateAvatarAPI, updateMeProfileAPI } from 'src/apis/profile.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from 'src/components/InputNumber'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/Contexts/app.contexts'
 import { setProfile as setProfileLS } from 'src/utils/localStorage'
-import noImage from 'src/assets/Image/no-image.png'
+import { getAvatarUrl, isUnprocessableEntity } from 'src/utils/utils'
+import { ErrorResponseApi } from 'src/Types/utils.type'
+import InputFile from '../../components/InputFile'
 
 type FormInputType = userSchemaInfoType
+
+// tạo type form error nhưng sửa lại type của thằng date do response từ sever trả về thì date là string chứ k phải string
+type FormInputError = Omit<FormInputType, 'date_of_birth'> & {
+  date_of_birth?: string
+}
 
 export default function Profile() {
   const { profile: profileContext, setProfile: setProfileContext } = useContext(AppContext)
 
-  console.log('profileContext', profileContext)
   // call api get info user
   const { data: profileData, refetch } = useQuery({
     queryKey: ['userInfo'],
@@ -26,9 +32,13 @@ export default function Profile() {
   })
   const profile = profileData?.data.data
 
+  // Mutation update Info
   const UpdateInfoMutation = useMutation({
     mutationFn: (body: bodyUpdateMeType) => updateMeProfileAPI(body)
   })
+
+  // Mutation Update Avatar
+  const UpdateAvatarMutation = useMutation(updateAvatarAPI)
 
   // khai báo sử dụng useForm
   const {
@@ -36,7 +46,9 @@ export default function Profile() {
     handleSubmit,
     control,
     setValue,
-    formState: { errors }
+    formState: { errors },
+    watch,
+    setError
   } = useForm<FormInputType>({
     defaultValues: {
       name: '',
@@ -61,16 +73,73 @@ export default function Profile() {
     }
   }, [profile, setValue])
 
+  // state luu local image
+  const [file, setFile] = useState<File>()
+
+  const previewImage = useMemo(() => {
+    if (file) {
+      return URL.createObjectURL(file)
+    }
+  }, [file])
+
+  const avatar = watch('avatar')
+
+  /**
+   *  có 2 flow up load ảnh như sau
+   * 1. khi chọn ảnh thì sẽ upload lên sv luôn -> sv sẽ trả về 1 url string
+   * dùng url đó để update info
+   * --> cho phản hồi nhanh khi submit, nhưng sẽ để lại rác trên sv nếu người dùng thay đổi khác liên tục
+   * 2. khi chọn ảnh thì k upload luôn, mà khi người dùng submit thì sẽ thực hiện 2 công việc
+   * upload ảnh xong rồi mới update info
+   * --> chậm hơn cách 1 do phải upload ảnh rồi mới update info khi người dùng submit, nhưng tránh được rác trên sv
+   * ==> chọn làm theo cách 2
+   */
+
   const onSubmit = handleSubmit(async (data) => {
-    const res = await UpdateInfoMutation.mutateAsync({ ...data, date_of_birth: data.date_of_birth?.toISOString() })
-    // refetch api get me info khi update info thành công
-    refetch()
-    // set lại profile trong app context khi update thành công
-    setProfileContext(res.data.data)
-    // set lai profile trong local storage
-    setProfileLS(res.data.data)
-    toast.success(res.data.message)
+    try {
+      let avatarName = avatar
+      if (file) {
+        const form = new FormData()
+        form.append('image', file)
+        const res = await UpdateAvatarMutation.mutateAsync(form)
+        avatarName = res.data.data
+        setValue('avatar', avatarName)
+      }
+
+      const res = await UpdateInfoMutation.mutateAsync({
+        ...data,
+        date_of_birth: data.date_of_birth?.toISOString(),
+        avatar: avatarName
+      })
+      // refetch api get me info khi update info thành công
+      refetch()
+      // set lại profile trong app context khi update thành công
+      setProfileContext(res.data.data)
+      // set lai profile trong local storage
+      setProfileLS(res.data.data)
+      toast.success(res.data.message)
+    } catch (error) {
+      /**
+       * xử lý hiện lỗi do sever trả về
+       */
+      if (isUnprocessableEntity<ErrorResponseApi<FormInputError>>(error)) {
+        const formErrors = error.response?.data.data
+        if (formErrors) {
+          // option 2
+          Object.keys(formErrors).forEach((key) => {
+            setError(key as keyof FormInputError, {
+              message: formErrors[key as keyof FormInputError],
+              type: 'Server'
+            })
+          })
+        }
+      }
+    }
   })
+
+  const handleChange = (file: File) => {
+    setFile(file)
+  }
   return (
     <div className='rounded-sm bg-white p-4 shadow-sm'>
       {/* header */}
@@ -165,14 +234,13 @@ export default function Profile() {
           {/* image avatar */}
           <div className='flex flex-col items-center sm:border-l-[1px] sm:border-gray-200 sm:pl-4'>
             <div className='h-[200px] w-[200px]'>
-              <img src={profileContext?.avatar || noImage} alt='avatar' className='rounded-full' />
+              <img
+                src={previewImage || getAvatarUrl(profileContext?.avatar)}
+                alt='avatar'
+                className='h-full w-full rounded-full object-cover'
+              />
             </div>
-            <div>
-              <input type='file' accept='.jpg,.jpeg,.png' className='hidden' />
-            </div>
-            <button className='mt-3 rounded-sm border border-gray-400 px-4 py-2 capitalize hover:bg-gray-100'>
-              chọn ảnh
-            </button>
+            <InputFile onChange={handleChange} />
             <div className='mt-3 text-sm text-gray-400'>
               <div>Dụng lượng file tối đa 1 MB</div>
               <div>Định dạng:.JPEG, .PNG</div>
