@@ -1,4 +1,5 @@
 export const path = {
+  baseURL: 'https://api-ecom.duthanhduoc.com',
   home: '/',
   login: '/login',
   register: '/register',

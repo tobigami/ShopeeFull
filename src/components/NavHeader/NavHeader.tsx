@@ -7,7 +7,7 @@ import { purchasesStatus } from 'src/Constants/purchases'
 import { AppContext } from 'src/Contexts/app.contexts'
 import { ChevronIcon, GlobalIcon } from 'src/Icons'
 import Popover from '../Popover'
-import noImage from 'src/assets/Image/no-image.png'
+import { getAvatarUrl } from 'src/utils/utils'
 
 export default function NavHeader() {
   const queryClient = useQueryClient()
@@ -60,7 +60,7 @@ export default function NavHeader() {
           }
         >
           <div className='ml-4 flex flex-shrink-0 cursor-pointer items-center hover:text-gray-300'>
-            <img src={profile?.avatar || noImage} alt='avatar' className='h-6 w-6 rounded-full' />
+            <img src={getAvatarUrl(profile?.avatar)} alt='avatar' className='h-6 w-6 rounded-full' />
             <span className='px-1'>{profile?.email}</span>
           </div>
         </Popover>

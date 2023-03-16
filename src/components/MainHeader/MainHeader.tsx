@@ -10,6 +10,7 @@ import { getPurchasesListApi } from 'src/apis/purchases.api'
 import { formatCurrency } from 'src/utils/utils'
 import useSearchProduct from 'src/Hooks/useSearchProduct'
 import NavHeader from '../NavHeader'
+import NoProduct from 'src/assets/Image/no-product.png'
 
 function MainHeader() {
   const maxPurchases = 5
@@ -92,7 +93,7 @@ function MainHeader() {
                     })
                   ) : (
                     <div className='flex flex-col items-center justify-center py-10 px-10'>
-                      <img src='src/assets/Image/no-product.png' alt='1' className=' block h-[200px] w-[200px] p-4' />
+                      <img src={NoProduct} alt='1' className=' block h-[200px] w-[200px] p-4' />
                       <span className='text-sm capitalize text-gray-400'>chưa có sản phẩm</span>
                     </div>
                   )}

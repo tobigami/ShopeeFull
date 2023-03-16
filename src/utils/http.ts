@@ -10,7 +10,7 @@ class Http {
   constructor() {
     this.accessToken = getAccessToken()
     this.instance = axios.create({
-      baseURL: 'https://api-ecom.duthanhduoc.com',
+      baseURL: path.baseURL,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
@@ -22,7 +22,6 @@ class Http {
         const { url } = response.config
         if (url === path.login || url === path.register) {
           const data = response.data as AuthResponse
-          console.log(data.data.user)
           this.accessToken = data.data?.access_token
           setAccessToken(this.accessToken)
           setProfile(data.data.user)
@@ -38,10 +37,11 @@ class Http {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
-          const message = data.message || error.message
+          const message = data?.message || error.message
           toast.error(message)
         }
         if (error.response?.status === HttpStatusCode.Unauthorized) {
+          // handle khi access token het han
           clearLS()
           // cách 1
           // window.location.reload()
