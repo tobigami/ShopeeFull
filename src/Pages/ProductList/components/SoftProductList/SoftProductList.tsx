@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { path, sortBy, order as orderConst } from 'src/Constants/path'
 import { ProductListConfig, QueryConfig } from 'src/Types/products.type'
@@ -113,6 +113,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
             </span>
           ) : (
             <Link
+              title='prePage'
               to={{
                 pathname: path.home,
                 search: createSearchParams({
@@ -156,6 +157,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
             </span>
           ) : (
             <Link
+              title='nextPage'
               to={{
                 pathname: path.home,
                 search: createSearchParams({
