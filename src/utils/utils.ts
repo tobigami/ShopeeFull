@@ -2,14 +2,29 @@ import axios, { AxiosError } from 'axios'
 import { HttpStatusCode } from 'src/Constants/httpStatusCode'
 import { path } from 'src/Constants/path'
 import NoImage from 'src/assets/Image/no-image.png'
+import { ErrorResponseApi } from 'src/Types/utils.type'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
   return axios.isAxiosError(error)
 }
 
+// type predicate error status 422
 export function isUnprocessableEntity<T>(error: unknown): error is AxiosError<T> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
+}
+
+// type predicate error status 401
+export function isUnauthorizedEntity<T>(error: unknown): error is AxiosError<T> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.Unauthorized
+}
+
+// type predicate error status 401 và kiểu tra xem có phải do token hết hạn không
+export function isAxiosExpiredTokenError<T>(error: unknown): error is AxiosError<T> {
+  return (
+    isUnauthorizedEntity<ErrorResponseApi<{ name: string; message: string }>>(error) &&
+    error.response?.data.data?.name === 'EXPIRED_TOKEN'
+  )
 }
 
 // convert price
