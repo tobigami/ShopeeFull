@@ -131,7 +131,7 @@ export default function ChangePassword() {
                 <input type='checkbox' className='h-4 w-4' onChange={onChangeShow} checked={Boolean(show === 'text')} />
               </div>
               <div className='flex-grow pl-4'>
-                <div className='text-md capitalize text-gray-500'>hiện thị mật khẩu</div>
+                <div className='text-md capitalize text-gray-700'>hiển thị mật khẩu</div>
               </div>
             </div>
             {/* btn submit */}
