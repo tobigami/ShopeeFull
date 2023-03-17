@@ -40,7 +40,7 @@ function MainHeader() {
         <NavHeader />
         <div className='grid grid-cols-12 items-center gap-3 py-2'>
           <div className='col-span-2'>
-            <Link to={'/'}>
+            <Link to={path.home} title='logo'>
               <LogoIcon className='h-8 fill-white lg:h-11 ' />
             </Link>
           </div>
@@ -53,7 +53,7 @@ function MainHeader() {
                 className='flex-grow rounded-sm border-none p-2 outline-none'
                 {...register('name')}
               />
-              <button className='m-1 cursor-pointer rounded-sm bg-primary px-4 hover:opacity-70'>
+              <button title='searchBtn' className='m-1 cursor-pointer rounded-sm bg-primary px-4 hover:opacity-70'>
                 <SearchIcon color='white' />
               </button>
             </div>
@@ -108,7 +108,7 @@ function MainHeader() {
                         Thêm vào giỏ hàng
                       </div>
                       <div className='rounded-sm bg-primary hover:opacity-90'>
-                        <Link to={path.cart}>
+                        <Link to={path.cart} title='gio hang'>
                           <button className='py-2 px-4 capitalize text-white'>Xem giỏ hàng</button>
                         </Link>
                       </div>
@@ -119,7 +119,7 @@ function MainHeader() {
                 </div>
               }
             >
-              <Link to={path.cart} className='relative'>
+              <Link to={path.cart} className='relative' title='Gio hang'>
                 {PurchasesList && PurchasesList.data.data.length > 0 && (
                   <span className='absolute top-[-2px] right-[-10px] rounded-full bg-white px-[6px] py-[1px] text-xs text-primary'>
                     {PurchasesList.data.data.length}

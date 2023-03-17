@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import { path } from './Constants/path'
 import { AppContext } from './Contexts/app.contexts'
@@ -6,14 +6,22 @@ import MainLayout from './Layouts/MainLayout'
 import RegisterLayout from './Layouts/RegisterLayout'
 import NotFound from './Pages/404NotFound'
 import Cart from './Pages/Cart'
-import Login from './Pages/Login'
-import ProductDetail from './Pages/ProductDetail'
-import ProductList from './Pages/ProductList'
-import Register from './Pages/Register'
 import UserLayout from './Pages/User/Layouts'
-import ChangePassword from './Pages/User/Pages/ChangePassword'
-import History from './Pages/User/Pages/History'
-import Profile from './Pages/User/Pages/Profile'
+// import Login from './Pages/Login'
+// import ProductDetail from './Pages/ProductDetail'
+// import ProductList from './Pages/ProductList'
+// import Register from './Pages/Register'
+// import ChangePassword from './Pages/User/Pages/ChangePassword'
+// import History from './Pages/User/Pages/History'
+// import Profile from './Pages/User/Pages/Profile'
+
+const Login = lazy(() => import('./Pages/Login'))
+const ProductDetail = lazy(() => import('./Pages/ProductDetail'))
+const ProductList = lazy(() => import('./Pages/ProductList'))
+const Register = lazy(() => import('./Pages/Register'))
+const ChangePassword = lazy(() => import('./Pages/User/Pages/ChangePassword'))
+const History = lazy(() => import('./Pages/User/Pages/History'))
+const Profile = lazy(() => import('./Pages/User/Pages/Profile'))
 
 /**
  * Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -41,7 +49,9 @@ function useRouteElements() {
       path: '/',
       element: (
         <MainLayout>
-          <ProductList />
+          <Suspense>
+            <ProductList />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -49,7 +59,9 @@ function useRouteElements() {
       path: path.productDetail,
       element: (
         <MainLayout>
-          <ProductDetail />
+          <Suspense>
+            <ProductDetail />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -79,15 +91,27 @@ function useRouteElements() {
           children: [
             {
               path: path.profile,
-              element: <Profile />
+              element: (
+                <Suspense>
+                  <Profile />
+                </Suspense>
+              )
             },
             {
               path: path.changePassword,
-              element: <ChangePassword />
+              element: (
+                <Suspense>
+                  <ChangePassword />
+                </Suspense>
+              )
             },
             {
               path: path.historyPurchase,
-              element: <History />
+              element: (
+                <Suspense>
+                  <History />
+                </Suspense>
+              )
             }
           ]
         }
@@ -105,7 +129,9 @@ function useRouteElements() {
           path: path.login,
           element: (
             <RegisterLayout>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </RegisterLayout>
           )
         },
@@ -113,7 +139,9 @@ function useRouteElements() {
           path: path.register,
           element: (
             <RegisterLayout>
-              <Register />
+              <Suspense>
+                <Register />
+              </Suspense>
             </RegisterLayout>
           )
         }

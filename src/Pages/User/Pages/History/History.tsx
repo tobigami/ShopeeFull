@@ -27,7 +27,6 @@ export default function History() {
     queryFn: () => getPurchasesListApi({ status: status as PurchasesListStatusType })
   })
   const PurchaseList = data?.data.data
-  console.log(PurchaseList)
 
   const purchasesTabsLink = purchasesTabs.map((item) => (
     <Link
@@ -46,13 +45,15 @@ export default function History() {
   ))
   return (
     <div>
+      {/* header */}
       <div className='sticky top-0 flex bg-white'>{purchasesTabsLink}</div>
-      <div className='mt-5 flex flex-col bg-white p-5 shadow-sm'>
+      {/* body */}
+      <div className='mt-6 flex flex-col bg-white  shadow-sm'>
         {PurchaseList &&
           PurchaseList.map((item) => {
             return (
               <Link
-                className='mx-4 mt-4 hover:shadow-sm'
+                className='mx-4 mt-5 last:mb-5 hover:shadow-sm'
                 key={item._id}
                 to={`${path.home}${generateNameId({ name: item.product.name, id: item.product._id })}`}
               >

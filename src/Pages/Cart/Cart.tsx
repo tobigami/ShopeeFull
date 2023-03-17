@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { produce } from 'immer'
-import { keyBy } from 'lodash'
+import keyBy from 'lodash/keyBy'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -12,6 +12,7 @@ import { purchasesStatus } from 'src/Constants/purchases'
 import { AppContext } from 'src/Contexts/app.contexts'
 import { PurchasesType } from 'src/Types/purchases.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
+import NoProduct from 'src/assets/Image/no-product.png'
 
 export default function Cart() {
   const queryClient = useQueryClient()
@@ -252,7 +253,7 @@ export default function Cart() {
             ) : (
               <div className='flex flex-col items-center justify-center'>
                 <div>
-                  <img src='src/assets/Image/no-product.png' alt='1' />
+                  <img src={NoProduct} alt='1' />
                 </div>
                 <div className='mt-4 text-xl capitalize text-black'>Giỏ hàng của bạn trống</div>
 
