@@ -173,7 +173,7 @@ export default function ProductDetail() {
                     key={img}
                     className='relative col-span-1 w-full pt-[100%] shadow'
                   >
-                    <img src={img} alt={img} className='absolute top-0 left-0 bg-white object-cover' />
+                    <img src={img} alt={img} className='absolute top-0 left-0 h-full w-full bg-white object-contain' />
                     {isActive && <div className='absolute inset-0 border-2 border-primary' />}
                   </div>
                 )
