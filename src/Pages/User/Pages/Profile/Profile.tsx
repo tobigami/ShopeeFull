@@ -13,6 +13,7 @@ import { getAvatarUrl, isUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/Types/utils.type'
 import InputFile from '../../components/InputFile'
 import InfoContext from '../../components/InfoContext'
+import { Helmet } from 'react-helmet-async'
 
 export type FormInputType = userSchemaInfoType
 
@@ -142,6 +143,10 @@ export default function Profile() {
   }
   return (
     <div className='rounded-sm bg-white p-4 shadow-sm'>
+      <Helmet>
+        <title>Thông tin tài khoản | Shopee Clone</title>
+        <meta name='Info Page' content='thông tin tài khoản của bạn' />
+      </Helmet>
       {/* header */}
       <div className='border-b-[1px] border-gray-200 pb-3'>
         <h1 className='text-xl capitalize text-gray-700'>hồ sơ của tôi</h1>

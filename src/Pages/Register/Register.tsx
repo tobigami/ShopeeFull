@@ -12,6 +12,7 @@ import { useContext } from 'react'
 import { AppContext } from 'src/Contexts/app.contexts'
 import Button from 'src/components/Button'
 import { path } from 'src/Constants/path'
+import { Helmet } from 'react-helmet-async'
 // type FormData = Pick<registerSchemaType, 'confirm_password' | 'email' | 'password'>
 type FormData = registerSchemaType
 
@@ -73,6 +74,10 @@ function Register() {
 
   return (
     <div className='bg-primary'>
+      <Helmet>
+        <title>Đăng kí | Shopee Clone</title>
+        <meta name='loginPage' content='Đăng kí tài khoản Shopee Clone' />
+      </Helmet>
       <div className='container py-4'>
         <div className='grid grid-cols-1 gap-1 lg:grid-cols-5'>
           <div className='col-span-1 lg:col-span-2 lg:col-start-4 lg:pr-8 '>

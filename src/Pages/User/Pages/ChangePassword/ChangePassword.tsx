@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import omit from 'lodash/omit'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { updateMeProfileAPI } from 'src/apis/profile.api'
@@ -67,6 +68,10 @@ export default function ChangePassword() {
 
   return (
     <div className='rounded-sm bg-white p-4 shadow-sm'>
+      <Helmet>
+        <title>Đổi mật khẩu | Shopee Clone</title>
+        <meta name='change password' content='đổi mật khẩu của bạn' />
+      </Helmet>
       {/* header */}
       <div className='border-b-[1px] border-gray-200 pb-3'>
         <h1 className='text-xl capitalize text-gray-700'>Đổ mật khẩu</h1>

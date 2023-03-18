@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import { createSearchParams, Link } from 'react-router-dom'
 import { getPurchasesListApi } from 'src/apis/purchases.api'
 import { path } from 'src/Constants/path'
@@ -45,6 +46,10 @@ export default function History() {
   ))
   return (
     <div>
+      <Helmet>
+        <title>Đơn mua | Shopee Clone</title>
+        <meta name='history purchases' content='đơn hàng của bạn' />
+      </Helmet>
       {/* header */}
       <div className='sticky top-0 flex bg-white'>{purchasesTabsLink}</div>
       {/* body */}

@@ -12,6 +12,8 @@ import { addToCartApi } from 'src/apis/purchases.api'
 import { toast } from 'react-toastify'
 import { purchasesStatus } from 'src/Constants/purchases'
 import { path } from 'src/Constants/path'
+import { Helmet } from 'react-helmet-async'
+import { convert } from 'html-to-text'
 
 interface InputAddToCart {
   product_id: string
@@ -129,6 +131,17 @@ export default function ProductDetail() {
   if (!product) return null
   return (
     <div className=' bg-gray-300 py-8 '>
+      <Helmet>
+        <title>{product.name}</title>
+        <meta
+          name='product detail'
+          content={convert(product.description, {
+            limits: {
+              maxInputLength: 150
+            }
+          })}
+        />
+      </Helmet>
       {/* hình ảnh phẩm */}
       <div className='container'>
         <div className='grid grid-cols-12 gap-9 rounded-sm bg-white py-10 px-10 shadow-sm'>

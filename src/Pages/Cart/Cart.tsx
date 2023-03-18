@@ -13,6 +13,7 @@ import { AppContext } from 'src/Contexts/app.contexts'
 import { PurchasesType } from 'src/Types/purchases.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
 import NoProduct from 'src/assets/Image/no-product.png'
+import { Helmet } from 'react-helmet-async'
 
 export default function Cart() {
   const queryClient = useQueryClient()
@@ -151,6 +152,10 @@ export default function Cart() {
   if (!purchasesList) return null
   return (
     <div className='bg-gray-300 py-4'>
+      <Helmet>
+        <title>Giỏ hàng | Shopee Clone</title>
+        <meta name='Cart Page' content='Giỏ hàng sản phẩm của bạn' />
+      </Helmet>
       <div className='container'>
         <div className='overflow-auto'>
           <div className='min-w-[1000px]'>
