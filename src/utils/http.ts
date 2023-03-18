@@ -27,7 +27,7 @@ class Http {
       headers: {
         'Content-Type': 'application/json',
         // setting 5s token hết hạn
-        'expire-access-token': 15,
+        'expire-access-token': 60,
         'expire-refresh-token': 3600
       }
     })
