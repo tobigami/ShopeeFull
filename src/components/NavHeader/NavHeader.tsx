@@ -26,8 +26,9 @@ export default function NavHeader() {
     logoutMutation.mutate()
   }
   return (
-    <nav className='flex items-center justify-end'>
+    <nav className='flex items-center sm:flex sm:justify-end'>
       <Popover
+        className='hidden cursor-pointer items-center  py-2 hover:text-gray-300 sm:flex'
         renderChildren={
           <div className='rounded border border-gray-200 bg-white shadow-md '>
             <div className='flex flex-col py-2 px-3'>
@@ -43,8 +44,9 @@ export default function NavHeader() {
       </Popover>
       {isAuthenticated && (
         <Popover
+          className='flex cursor-pointer items-center py-1 hover:text-gray-300'
           renderChildren={
-            <div className='rounded-md border border-gray-200 bg-white py-2 px-3 shadow-sm'>
+            <div className='rounded-md border border-gray-200 bg-white py-2 px-3 shadow-sm sm:py-2'>
               <Link to={path.profile} className='block py-2 px-2  hover:text-emerald-400'>
                 Tài khoản của tôi
               </Link>
@@ -59,15 +61,15 @@ export default function NavHeader() {
             </div>
           }
         >
-          <div className='ml-4 flex flex-shrink-0 cursor-pointer items-center hover:text-gray-300'>
-            <img src={getAvatarUrl(profile?.avatar)} alt='avatar' className='h-6 w-6 rounded-full' />
-            <span className='px-1'>{profile?.email}</span>
+          <div className='ml-0 flex flex-shrink-0 cursor-pointer items-center hover:text-gray-300 sm:ml-4'>
+            <img src={getAvatarUrl(profile?.avatar)} alt='avatar' className='h-4 w-4 rounded-full sm:h-6 sm:w-6' />
+            <span className='px-1 text-xs sm:text-sm'>{profile?.email}</span>
           </div>
         </Popover>
       )}
       {!isAuthenticated && (
-        <div className='flex items-center py-2'>
-          <Link to='/register' className='mx-3 text-white hover:text-white/70'>
+        <div className='flex items-center py-1 sm:py-2'>
+          <Link to='/register' className='mr-3 text-white hover:text-white/70 sm:mx-3'>
             Đăng Ký
           </Link>
 

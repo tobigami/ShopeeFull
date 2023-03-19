@@ -35,18 +35,18 @@ function MainHeader() {
   })
 
   return (
-    <div className='bg-primary text-sm text-white'>
+    <div className='sticky top-0 z-10 w-full  bg-primary text-sm text-white'>
       <div className='container'>
         <NavHeader />
-        <div className='grid grid-cols-12 items-center gap-3 py-2'>
+        <div className='grid grid-cols-12 items-center gap-3'>
           <div className='col-span-2'>
             <Link to={path.home} title='logo'>
-              <LogoIcon className='h-8 fill-white lg:h-11 ' />
+              <LogoIcon className='h-6 fill-white sm:h-8 lg:h-11 ' />
             </Link>
           </div>
           {/* search input */}
-          <form onSubmit={handleOnSubmit} className='col-span-9'>
-            <div className='flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
+          <form onSubmit={handleOnSubmit} className='col-span-9 hidden sm:block'>
+            <div className=' flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
               <input
                 type='text'
                 placeholder='Tìm kiếm sản phẩm'
@@ -58,7 +58,7 @@ function MainHeader() {
               </button>
             </div>
           </form>
-          <div className='cols-span-1 flex justify-end'>
+          <div className='cols-span-1 col-start-12 flex justify-end'>
             <Popover
               // initialState={true}
               renderChildren={
@@ -125,7 +125,7 @@ function MainHeader() {
                     {PurchasesList.data.data.length}
                   </span>
                 )}
-                <CartIcon className='h-9 w-9 flex-shrink-0 cursor-pointer hover:text-gray-300' />
+                <CartIcon className='h-6 w-6 flex-shrink-0 cursor-pointer hover:text-gray-300 sm:h-9 sm:w-9' />
               </Link>
             </Popover>
           </div>

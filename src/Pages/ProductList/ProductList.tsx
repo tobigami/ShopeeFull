@@ -32,15 +32,15 @@ function ProductList() {
         <title>Trang chủ | Shopee</title>
         <meta name='productList' content='Trang chủ shopee' />
       </Helmet>
-      <div className='container py-5'>
+      <div className='container py-2 sm:py-5'>
         {dataProduct && (
           <div className='min-h-20  grid grid-cols-12 gap-4'>
             {/* Aside Product */}
-            <div className='min-h-20 col-span-3'>
+            <div className='min-h-20 col-span-3 hidden sm:block'>
               <AsideFilter categories={dataCategories?.data.data || []} queryConfig={queryConfig} />
             </div>
             {/* Product List Body */}
-            <div className='min-h-20 col-span-9 bg-gray-300'>
+            <div className='min-h-20 col-span-12 bg-gray-300 sm:col-span-9'>
               <SoftProductList pageSize={dataProduct.data.data.pagination.page_size} queryConfig={queryConfig} />
               {/* Product Items Container */}
               <div className='mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>

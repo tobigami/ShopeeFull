@@ -33,13 +33,13 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
     })
   }
   return (
-    <div className='bg-[#ededed]'>
-      <div className='flex flex-wrap items-center justify-between p-5'>
-        <div className='flex items-center justify-center gap-2'>
-          <div className='text-sm text-gray-500'>Sắp sếp theo</div>
+    <div className='bg-[#ededed] sm:block'>
+      <div className='flex flex-wrap items-center justify-center p-2 sm:justify-between sm:p-4'>
+        <div className='scrollbar-hidden flex items-center justify-start gap-2 overflow-x-auto whitespace-nowrap sm:justify-center'>
+          <div className='hidden text-sm text-gray-500 sm:block'>Sắp sếp theo</div>
           <button
             onClick={() => handleSort(sortBy.view)}
-            className={classNames('rounded-sm  px-5 py-2 text-sm  shadow-sm', {
+            className={classNames('text-sx flex-shrink-0 rounded-sm px-2 py-2  shadow-sm sm:px-5 sm:text-sm', {
               'bg-primary text-white hover:bg-primary/90': isActiveSortBy(sortBy.view),
               'bg-white text-black hover:bg-slate-200': !isActiveSortBy(sortBy.view)
             })}
@@ -48,7 +48,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
           </button>
           <button
             onClick={() => handleSort(sortBy.createdAt)}
-            className={classNames('rounded-sm  px-5 py-2 text-sm  shadow-sm', {
+            className={classNames('flex-shrink-0 rounded-sm  px-2 py-2 text-sm  shadow-sm sm:px-5', {
               'bg-primary text-white hover:bg-primary/90': isActiveSortBy(sortBy.createdAt),
               'bg-white text-black hover:bg-slate-200': !isActiveSortBy(sortBy.createdAt)
             })}
@@ -58,7 +58,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
 
           <button
             onClick={() => handleSort(sortBy.sold)}
-            className={classNames('rounded-sm  px-5 py-2 text-sm  shadow-sm', {
+            className={classNames('flex-shrink-0  rounded-sm px-2 py-2 text-sm shadow-sm sm:px-5', {
               'bg-primary text-white hover:bg-primary/90': isActiveSortBy(sortBy.sold),
               'bg-white text-black hover:bg-slate-200': !isActiveSortBy(sortBy.sold)
             })}
@@ -70,7 +70,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
             onChange={(e) => {
               handleOrderPrice(e.target.value as Exclude<ProductListConfig['order'], undefined>)
             }}
-            className={classNames('px-4 py-2 text-left text-sm capitalize outline-none ', {
+            className={classNames('flex-shrink-0 py-2 text-left text-sm capitalize outline-none ', {
               'bg-white text-black hover:bg-slate-300': !isActiveSortBy(sortBy.price),
               'bg-primary text-white hover:bg-primary/70': isActiveSortBy(sortBy.price)
             })}
@@ -87,7 +87,7 @@ function SoftProductList({ pageSize, queryConfig }: Props) {
             </option>
           </select>
         </div>
-        <div className='flex items-center'>
+        <div className='hidden items-center sm:flex'>
           <div className='px-4'>
             <span className='text-primary'>{page}</span>
             <span className='px-1'>/</span>
