@@ -233,19 +233,19 @@ export default function Cart() {
                               onIncrease={(value) => handleQuantity(index, value, value <= item.product.quantity)}
                               onDecrease={(value) => handleQuantity(index, value, value >= 1)}
                               onType={handleOnType(index)}
-                              classWrapper='justify-center'
+                              classWrapper='sm:justify-center justify-start'
                               disabled={item.disable}
                               onFocusOut={(values) =>
                                 handleQuantity(index, values, values <= item.product.quantity && values >= 1)
                               }
                             />
                           </div>
-                          <div className='col-span-1 col-start-3 col-end-4 text-sm text-primary sm:col-start-4 sm:col-end-5 sm:grid'>
-                            <span>{formatCurrency(item.buy_count * item.price)}</span>
+                          <div className='col-span-1 col-start-4 col-end-5 text-sm text-primary sm:col-start-4 sm:col-end-5 sm:grid'>
+                            <span className='text-xl'>{formatCurrency(item.buy_count * item.price)}</span>
                           </div>
                           <button
                             onClick={handleDeletePurchase(item._id)}
-                            className='col-span-1 col-start-5 col-end-6 rounded-sm bg-primary py-0.5 text-sm text-white sm:grid'
+                            className='col-span-1 col-start-5 col-end-6 hidden rounded-sm  py-0.5 text-sm text-black sm:grid'
                           >
                             Xoá
                           </button>
@@ -275,8 +275,8 @@ export default function Cart() {
         {/* bottom */}
         <div className='sticky bottom-0 mt-8 rounded-sm border border-gray-400 shadow-sm'>
           <div className='flex flex-col items-start rounded-sm bg-white sm:flex-row sm:items-center sm:justify-between sm:py-5'>
-            <div className='flex w-full items-center justify-evenly capitalize sm:w-fit'>
-              <div className='flex items-center justify-center p-1 sm:p-6'>
+            <div className='flex w-full items-center justify-around capitalize sm:w-fit'>
+              <div className='hidden items-center justify-center p-1 sm:flex sm:p-6'>
                 <input
                   type='checkbox'
                   className='h-4 w-4 accent-primary sm:h-5 sm:w-5'
@@ -284,13 +284,13 @@ export default function Cart() {
                   checked={isCheckAll}
                 />
               </div>
-              <button className='px-3 text-xs capitalize sm:text-base' onClick={handleCheckAll}>
+              <button className='px-0 text-sm capitalize sm:px-3 sm:text-base' onClick={handleCheckAll}>
                 chọn tất cả ({ExtendPurchases.length})
               </button>
               <div className='px-3'>
                 <button
                   onClick={handleDeleteManyPurchase}
-                  className='rounded-sm bg-primary py-0.5 px-2 text-xs text-white sm:text-base'
+                  className='rounded-sm  py-0.5 px-2 text-xs text-black sm:text-base'
                 >
                   Xoá
                 </button>
