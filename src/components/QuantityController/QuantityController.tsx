@@ -74,7 +74,7 @@ export default function QuantityController({
         onChange={handleChange}
         className=''
         classError='hidden'
-        classInput='sm:h-7 sm:w-12 h-7 w-10 p-1  border-t border-b border-gray-400 text-center outline-none'
+        classInput='sm:h-7 sm:w-12 h-7 w-14 p-1  border border-gray-400 text-center outline-none mx-1'
         value={value || localValue}
         onBlur={handleBlur}
         {...rest}
