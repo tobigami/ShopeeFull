@@ -13,8 +13,8 @@ export default function InfoContext() {
   return (
     <Fragment>
       <div className='mt-2 flex flex-col sm:mt-4 sm:flex-row sm:items-baseline'>
-        <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>tên</div>
-        <div className='sm:w-[80%]'>
+        <div className='text-xs capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right sm:text-sm'>tên</div>
+        <div className='text-xs sm:w-[80%] sm:text-sm'>
           <Input
             name='name'
             register={register}
@@ -26,7 +26,7 @@ export default function InfoContext() {
       </div>
 
       {/* address */}
-      <div className='flex flex-col sm:flex-row sm:items-baseline'>
+      <div className='flex flex-col text-xs sm:flex-row sm:items-baseline sm:text-sm'>
         <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>địa chỉ</div>
         <div className='sm:w-[80%]'>
           <Input
@@ -40,7 +40,7 @@ export default function InfoContext() {
       </div>
 
       {/* phone number */}
-      <div className=' flex flex-col sm:flex-row sm:items-baseline'>
+      <div className=' flex flex-col text-xs sm:flex-row sm:items-baseline sm:text-sm'>
         <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>số điện thoại</div>
         <div className='sm:w-[80%]'>
           <Controller

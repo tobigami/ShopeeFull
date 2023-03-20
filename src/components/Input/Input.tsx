@@ -25,7 +25,7 @@ function Input({
   rules,
   autoComplete,
   classInput = 'rounded border border-gray-300 focus:border-gray-500 focus:shadow-sm w-full h-10 p-2 outline-none',
-  classError = 'text-red-600 mt-1 min-h-[1.25rem] text-sm'
+  classError = 'text-red-600 mt-1 min-h-[1.25rem] text-xs sm:text-sm'
 }: Props) {
   const registerResult = register && name ? register(name, rules) : {}
   return (

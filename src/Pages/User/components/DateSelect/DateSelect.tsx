@@ -32,13 +32,13 @@ export default function DateSelect({ value, errorsMessage, onChange }: Props) {
 
   return (
     <div className=' flex flex-col sm:flex-row sm:items-baseline'>
-      <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>ngày sinh</div>
+      <div className='text-xs capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right sm:text-sm'>ngày sinh</div>
       <div className='flex flex-col justify-between sm:w-[80%] sm:justify-between'>
-        <div className='flex justify-between'>
+        <div className='flex justify-between text-xs sm:text-sm'>
           <select
             name='date'
             onChange={handleChange}
-            className='h-8 w-[30%] rounded border border-gray-400 px-3 outline-none hover:border-primary'
+            className='h-6 w-[30%] rounded border border-gray-400 px-1 outline-none hover:border-primary sm:h-8 sm:px-3'
             value={value?.getDate() || date.date}
           >
             <option value='ngay' disabled>
@@ -54,7 +54,7 @@ export default function DateSelect({ value, errorsMessage, onChange }: Props) {
           <select
             onChange={handleChange}
             name='month'
-            className='h-8 w-[30%] rounded border border-gray-400 px-3 outline-none hover:border-primary'
+            className='h-6 w-[30%] rounded border border-gray-400 px-1 outline-none hover:border-primary sm:h-8 sm:px-3'
             value={value?.getMonth() || date.month}
           >
             <option value='thang' className=' text-gray-600' disabled>
@@ -70,7 +70,7 @@ export default function DateSelect({ value, errorsMessage, onChange }: Props) {
           <select
             onChange={handleChange}
             name='year'
-            className='h-8 w-[30%] rounded border border-gray-400 px-3 outline-none hover:border-primary'
+            className='h-6 w-[30%] rounded border border-gray-400 px-1 outline-none hover:border-primary sm:h-8 sm:px-3'
             value={value?.getFullYear() || date.year}
           >
             <option value='nam' className=' text-gray-600' disabled>
@@ -83,7 +83,7 @@ export default function DateSelect({ value, errorsMessage, onChange }: Props) {
             ))}
           </select>
         </div>
-        <div className='mt-1 min-h-[1.25rem] text-sm text-red-600'>{errorsMessage}</div>
+        <div className='mt-1 min-h-[1.25rem] text-xs text-red-600 sm:text-sm'>{errorsMessage}</div>
       </div>
     </div>
   )

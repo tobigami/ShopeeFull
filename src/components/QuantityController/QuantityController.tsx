@@ -57,7 +57,7 @@ export default function QuantityController({
     <div className={`flex items-center ${classWrapper}`}>
       <button
         onClick={decrease}
-        className='flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white shadow-sm hover:bg-white/70'
+        className='flex h-5 w-5 items-center justify-center rounded-sm border border-gray-400 bg-white shadow-sm hover:bg-white/70 sm:h-7 sm:w-7'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -74,14 +74,14 @@ export default function QuantityController({
         onChange={handleChange}
         className=''
         classError='hidden'
-        classInput='h-7 w-12 p-1  border-t border-b border-gray-400 text-center outline-none'
+        classInput='sm:h-7 sm:w-12 h-5 w-10 p-1  border-t border-b border-gray-400 text-center outline-none'
         value={value || localValue}
         onBlur={handleBlur}
         {...rest}
       />
       <button
         onClick={increase}
-        className='shadow-xm flex h-7 w-7 items-center justify-center rounded-sm border border-gray-400 bg-white hover:bg-white/70'
+        className='shadow-xm flex h-5 w-5 items-center justify-center rounded-sm border border-gray-400 bg-white hover:bg-white/70 sm:h-7 sm:w-7'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

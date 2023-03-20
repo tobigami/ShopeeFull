@@ -50,40 +50,40 @@ function Popover({
       {/* children */}
       {children}
       {/* popover menu */}
-      <FloatingPortal id={id}>
-        <AnimatePresence>
-          {/* Floating */}
-          {isOpen && (
-            <motion.div
-              ref={refs.setFloating}
+      {/* <FloatingPortal id={id}> */}
+      <AnimatePresence>
+        {/* Floating */}
+        {isOpen && (
+          <motion.div
+            ref={refs.setFloating}
+            style={{
+              position: strategy,
+              zIndex: 20,
+              top: y ?? 0,
+              left: x ?? 0,
+              width: 'max-content',
+              transformOrigin: `${middlewareData.arrow?.x}px top`
+            }}
+            initial={{ opacity: 0, transform: 'scale(0)' }}
+            animate={{ opacity: 1, transform: 'scale(1)' }}
+            exit={{ opacity: 0, transform: 'scale(0)' }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* arrow */}
+            <span
+              ref={arrowRef}
+              className='absolute z-10 hidden translate-y-[-95%] translate-x-[-10px] border-[11px] border-x-transparent border-t-transparent border-b-white sm:block'
               style={{
-                position: strategy,
-                zIndex: 20,
-                top: y ?? 0,
-                left: x ?? 0,
-                width: 'max-content',
-                transformOrigin: `${middlewareData.arrow?.x}px top`
+                top: middlewareData.arrow?.y,
+                left: middlewareData.arrow?.x
               }}
-              initial={{ opacity: 0, transform: 'scale(0)' }}
-              animate={{ opacity: 1, transform: 'scale(1)' }}
-              exit={{ opacity: 0, transform: 'scale(0)' }}
-              transition={{ duration: 0.2 }}
-            >
-              {/* arrow */}
-              <span
-                ref={arrowRef}
-                className='absolute z-10 hidden translate-y-[-95%] translate-x-[-10px] border-[11px] border-x-transparent border-t-transparent border-b-white sm:block'
-                style={{
-                  top: middlewareData.arrow?.y,
-                  left: middlewareData.arrow?.x
-                }}
-              />
-              {/* render children */}
-              {renderChildren}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </FloatingPortal>
+            />
+            {/* render children */}
+            {renderChildren}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* </FloatingPortal> */}
     </Element>
   )
 }

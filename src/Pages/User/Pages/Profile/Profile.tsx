@@ -162,8 +162,8 @@ export default function Profile() {
           >
             <div className='flex-grow sm:pr-[16px]'>
               <div className='flex flex-col sm:flex-row'>
-                <div className='w-[20%] capitalize text-gray-600 sm:mr-4 sm:text-right'>email</div>
-                <div className='w-[80%]'>{profile?.email}</div>
+                <div className='w-[20%] text-xs capitalize text-gray-600 sm:mr-4 sm:text-right sm:text-sm'>email</div>
+                <div className='w-[80%] text-xs sm:text-sm'>{profile?.email}</div>
               </div>
               {/* input info useContextForm */}
               <InfoContext />
@@ -180,9 +180,9 @@ export default function Profile() {
                 )}
               />
               {/* btn submit */}
-              <div className='mt-8'>
+              <div className='mt-2 sm:mt-8'>
                 <Button
-                  className='h-10 w-16 rounded bg-primary text-lg capitalize text-white hover:bg-primary/80'
+                  className='h-8 w-12 rounded bg-primary text-lg capitalize text-white hover:bg-primary/80 sm:h-10 sm:w-16'
                   type='submit'
                 >
                   Lưu
@@ -191,7 +191,7 @@ export default function Profile() {
             </div>
             {/* image avatar */}
             <div className='flex flex-col items-center sm:border-l-[1px] sm:border-gray-200 sm:pl-4'>
-              <div className='h-[200px] w-[200px]'>
+              <div className='h-[100px] w-[100px] sm:h-[200px] sm:w-[200px]'>
                 <img
                   src={previewImage || getAvatarUrl(profileContext?.avatar)}
                   alt='avatar'

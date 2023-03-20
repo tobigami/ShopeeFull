@@ -34,9 +34,9 @@ function ProductList() {
       </Helmet>
       <div className='container py-2 sm:py-5'>
         {dataProduct && (
-          <div className='min-h-20  grid grid-cols-12 gap-4'>
+          <div className='min-h-20  grid grid-cols-12 gap-1 sm:gap-4'>
             {/* Aside Product */}
-            <div className='min-h-20 col-span-3 hidden sm:block'>
+            <div className='min-h-20 col-span-12 sm:col-span-3 sm:block'>
               <AsideFilter categories={dataCategories?.data.data || []} queryConfig={queryConfig} />
             </div>
             {/* Product List Body */}

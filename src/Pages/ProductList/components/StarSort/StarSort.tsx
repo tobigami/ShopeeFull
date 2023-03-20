@@ -27,7 +27,7 @@ function StarSort({ queryConfig }: Props) {
     })
   }
   return (
-    <div>
+    <div className='hidden sm:block'>
       <ul>
         {Array(5)
           .fill(0)

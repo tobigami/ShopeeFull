@@ -88,7 +88,7 @@ export default function ChangePassword() {
         >
           <div className='flex-grow'>
             {/* current password */}
-            <div className='flex flex-col sm:flex-row sm:items-baseline'>
+            <div className='flex flex-col text-xs sm:flex-row sm:items-baseline sm:text-sm'>
               <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>mật khẩu hiện tại</div>
               <div className='sm:w-[40%]'>
                 <Input
@@ -103,7 +103,7 @@ export default function ChangePassword() {
             </div>
 
             {/* new password */}
-            <div className='flex flex-col sm:flex-row sm:items-baseline'>
+            <div className='flex flex-col text-xs sm:flex-row sm:items-baseline sm:text-sm'>
               <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>mật khẩu mới</div>
               <div className='sm:w-[40%]'>
                 <Input
@@ -117,7 +117,7 @@ export default function ChangePassword() {
               </div>
             </div>
             {/* confirm password */}
-            <div className='flex flex-col sm:flex-row sm:items-baseline'>
+            <div className='flex flex-col text-xs sm:flex-row sm:items-baseline sm:text-sm'>
               <div className='capitalize text-gray-600 sm:mr-4 sm:w-[20%] sm:text-right'>xác nhận mật khẩu</div>
               <div className='sm:w-[40%]'>
                 <Input
@@ -131,8 +131,8 @@ export default function ChangePassword() {
               </div>
             </div>
 
-            <div className='mt-3 flex sm:flex-row sm:items-start'>
-              <div className='w-[20%] text-right'>
+            <div className='mt-1 flex sm:mt-3 sm:flex-row sm:items-start'>
+              <div className='sm:w-[20%] sm:text-right'>
                 <input type='checkbox' className='h-4 w-4' onChange={onChangeShow} checked={Boolean(show === 'text')} />
               </div>
               <div className='flex-grow pl-4'>
@@ -140,9 +140,9 @@ export default function ChangePassword() {
               </div>
             </div>
             {/* btn submit */}
-            <div className='mt-8'>
+            <div className='mt-2 sm:mt-8'>
               <Button
-                className='h-10 w-16 rounded bg-primary text-lg capitalize text-white hover:bg-primary/80'
+                className='h-8 w-12 rounded bg-primary text-lg capitalize text-white hover:bg-primary/80 sm:h-10 sm:w-16'
                 type='submit'
               >
                 Lưu

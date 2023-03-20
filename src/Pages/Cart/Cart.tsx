@@ -158,9 +158,9 @@ export default function Cart() {
       </Helmet>
       <div className='container'>
         <div className='overflow-auto'>
-          <div className='min-w-[1000px]'>
+          <div className='min-w-[10px]'>
             {/* header */}
-            <div className='mb-4 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white p-6 capitalize shadow-sm'>
+            <div className='mb-4 hidden grid-cols-12 items-center rounded-sm border border-gray-200 bg-white p-6 capitalize shadow-sm sm:grid'>
               <div className='col-span-6'>
                 <div className='flex items-center'>
                   <div className='mr-6 flex-shrink-0 items-center justify-center'>
@@ -185,19 +185,19 @@ export default function Cart() {
             </div>
             {/* body */}
             {purchasesList.length > 0 ? (
-              <div className='bg-white p-3'>
+              <div className='bg-white p-2 sm:p-3'>
                 {ExtendPurchases.map((item, index) => {
                   return (
                     <div
                       key={item._id}
-                      className='mt-3 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white p-3 capitalize shadow-sm'
+                      className='mt-3 grid grid-cols-12 items-center gap-4 rounded-sm border border-gray-200 bg-white p-1 capitalize shadow-sm sm:gap-0 sm:p-3'
                     >
-                      <div className='col-span-6'>
+                      <div className='col-span-6 col-start-1 col-end-13 sm:col-start-1 sm:col-end-7'>
                         <div className='flex items-center'>
-                          <div className='mr-6 flex-shrink-0 items-center justify-center'>
+                          <div className='mr-3 flex-shrink-0 items-center justify-center sm:mr-6'>
                             <input
                               type='checkbox'
-                              className='h-5 w-5 accent-primary'
+                              className='h-4 w-4 accent-primary sm:h-5 sm:w-5'
                               checked={item.checked}
                               onChange={handleCheck(index)}
                             />
@@ -211,21 +211,21 @@ export default function Cart() {
                                 <img src={item.product.image} alt={item.product.image} />
                               </div>
                               <div className='flex-grow px-4 pt-1 pb-2'>
-                                <div className='line-clamp-2'>{item.product.name}</div>
+                                <div className='line-clamp-2 sm:line-clamp-2'>{item.product.name}</div>
                               </div>
                             </div>
                           </Link>
                         </div>
                       </div>
-                      <div className='col-span-6'>
+                      <div className='col-span-6 col-start-2 col-end-13  sm:col-start-7 sm:col-end-13'>
                         <div className='grid grid-cols-5 items-center text-center'>
-                          <div className='col-span-2 text-sm text-gray-400'>
+                          <div className='col-span-2 hidden text-sm text-gray-400 sm:grid'>
                             <div className='flex items-center justify-center text-xs'>
                               <span className='px-2 line-through'>{formatCurrency(item.price_before_discount)}</span>
                               <span className='px-2 text-black'>{formatCurrency(item.price)}</span>
                             </div>
                           </div>
-                          <div className='col-span-1'>
+                          <div className='col-span-2 sm:col-span-1'>
                             {/* <span>test di test lai van the</span> */}
                             <QuantityController
                               max={item.product.quantity}
@@ -240,12 +240,12 @@ export default function Cart() {
                               }
                             />
                           </div>
-                          <div className='col-span-1 text-sm text-primary'>
+                          <div className='col-span-1 col-start-3 col-end-4 text-sm text-primary sm:col-start-4 sm:col-end-5 sm:grid'>
                             <span>{formatCurrency(item.buy_count * item.price)}</span>
                           </div>
                           <button
                             onClick={handleDeletePurchase(item._id)}
-                            className='text-s col-span-1 text-sm text-black'
+                            className='col-span-1 col-start-5 col-end-6 rounded-sm bg-primary py-0.5 text-sm text-white sm:grid'
                           >
                             Xoá
                           </button>
@@ -275,36 +275,45 @@ export default function Cart() {
         {/* bottom */}
         <div className='sticky bottom-0 mt-8 rounded-sm border border-gray-400 shadow-sm'>
           <div className='flex flex-col items-start rounded-sm bg-white sm:flex-row sm:items-center sm:justify-between sm:py-5'>
-            <div className='flex items-center capitalize'>
-              <div className='flex items-center justify-center p-6'>
+            <div className='flex w-full items-center justify-evenly capitalize sm:w-fit'>
+              <div className='flex items-center justify-center p-1 sm:p-6'>
                 <input
                   type='checkbox'
-                  className='h-5 w-5 accent-primary'
+                  className='h-4 w-4 accent-primary sm:h-5 sm:w-5'
                   onChange={handleCheckAll}
                   checked={isCheckAll}
                 />
               </div>
-              <button className='px-3 capitalize' onClick={handleCheckAll}>
+              <button className='px-3 text-xs capitalize sm:text-base' onClick={handleCheckAll}>
                 chọn tất cả ({ExtendPurchases.length})
               </button>
               <div className='px-3'>
-                <button onClick={handleDeleteManyPurchase}>Xoá</button>
+                <button
+                  onClick={handleDeleteManyPurchase}
+                  className='rounded-sm bg-primary py-0.5 px-2 text-xs text-white sm:text-base'
+                >
+                  Xoá
+                </button>
               </div>
             </div>
-            <div className='flex flex-col items-start px-4 py-4 sm:flex-row sm:items-center sm:px-0 sm:py-0'>
+            <div className='flex w-full items-center justify-evenly sm:w-fit sm:items-center sm:px-0 sm:py-0'>
               <div className='flex flex-col capitalize'>
                 <div className='flex flex-col items-start sm:flex-row sm:items-center'>
-                  <div className='mr-4'>tổng thanh toán sản phẩm ({purchasesCheckedListLength} sản phẩm):</div>
-                  <div className='text-2xl text-primary'>{formatCurrency(totalPricePurchaseChecked)}</div>
+                  <div className='mr-4 hidden sm:block'>
+                    tổng thanh toán sản phẩm ({purchasesCheckedListLength} sản phẩm):
+                  </div>
+                  <div className='min-w-[70px] text-xs text-primary sm:text-2xl'>
+                    {formatCurrency(totalPricePurchaseChecked)}
+                  </div>
                 </div>
-                <div className='mt-2 flex flex-col items-start justify-center sm:mt-0 sm:flex-row sm:items-center sm:justify-start'>
+                <div className='mt-2 hidden flex-col items-start justify-center sm:mt-0 sm:flex sm:flex-row sm:items-center sm:justify-start'>
                   <div className='mr-4'>tiết kiệm:</div>
                   <div className='text-sm text-primary'>{formatCurrency(totalPriceSavingPurchaseChecked)}</div>
                 </div>
               </div>
-              <div className='mt-4 sm:mt-0 sm:px-4'>
+              <div className='my-1 sm:mt-0 sm:px-4'>
                 <Button
-                  className='rounded-sm bg-primary px-[60px] py-3 uppercase text-white'
+                  className='rounded-sm bg-primary px-[52px] py-[2px] text-xs uppercase text-white sm:px-[60px] sm:py-3 sm:text-base'
                   onClick={handleBuyPurchases}
                   disabled={BuyPurchases.isLoading}
                 >

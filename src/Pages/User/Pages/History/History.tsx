@@ -36,12 +36,12 @@ export default function History() {
         pathname: path.historyPurchase,
         search: createSearchParams({ status: String(item.status) }).toString()
       }}
-      className={classNames('flex-1 border-b-[2px] text-center', {
+      className={classNames('flex-shrink-0 border-b-[2px] border-t-[2px] text-center sm:flex-1', {
         'border-primary text-primary': status === item.status,
-        'border-gray-300 text-black': status !== item.status
+        'border-transparent text-black': status !== item.status
       })}
     >
-      <div className='py-4 font-medium capitalize '>{item.name}</div>
+      <div className=' py-1 px-3 text-sm capitalize sm:px-2 sm:py-4 sm:text-base'>{item.name}</div>
     </Link>
   ))
   return (
@@ -51,33 +51,40 @@ export default function History() {
         <meta name='history purchases' content='đơn hàng của bạn' />
       </Helmet>
       {/* header */}
-      <div className='sticky top-0 flex bg-white'>{purchasesTabsLink}</div>
+      <div className='scrollbar-hidden sticky top-0 flex overflow-x-auto bg-white'>{purchasesTabsLink}</div>
       {/* body */}
-      <div className='mt-6 flex flex-col bg-white  shadow-sm'>
+      <div className=' mt-2 flex flex-col bg-white shadow-sm  sm:mt-6'>
         {PurchaseList &&
           PurchaseList.map((item) => {
             return (
               <Link
-                className='mx-4 mt-5 last:mb-5 hover:shadow-sm'
+                className='mx-2 mt-2 last:mb-2 hover:shadow-sm sm:mx-4 sm:mt-5 sm:last:mb-5'
                 key={item._id}
                 to={`${path.home}${generateNameId({ name: item.product.name, id: item.product._id })}`}
               >
-                <div className='flex items-center border border-gray-300 p-3 hover:border-primary'>
+                <div className='flex items-center border border-gray-300 p-1 hover:border-primary sm:p-3'>
                   <div className='mr-4 flex-shrink-0'>
                     <img className='h-[80px] w-[80px] object-cover' src={item.product.image} alt={item.product.name} />
                   </div>
 
-                  <div className='flex-grow'>
-                    <div className='flex flex-col items-start justify-evenly'>
-                      <div>{item.product.name}</div>
-                      <div className='mt-3 text-primary'>x{item.buy_count}</div>
+                  <div className='flex flex-grow flex-col justify-between sm:flex-row'>
+                    <div className='flex flex-col items-start justify-evenly text-xs sm:text-lg'>
+                      <div className='line-clamp-2'>{item.product.name}</div>
+                      <div className='mt-1 text-primary sm:mt-3'>x{item.buy_count}</div>
+                    </div>
+
+                    <div className='flex flex-shrink-0 flex-row justify-start sm:ml-4 sm:flex sm:w-[20%] sm:flex-row'>
+                      <div className='mr-2 text-xs capitalize sm:text-base'>thành tiền:</div>
+                      <div className='text-xs text-primary sm:text-base'>
+                        {formatCurrency(item.buy_count * item.product.price)}
+                      </div>
                     </div>
                   </div>
 
-                  <div className='ml-4 flex w-[20%] flex-shrink-0 flex-row justify-start'>
+                  {/* <div className='ml-4 hidden w-[20%] flex-shrink-0 flex-row justify-start sm:flex'>
                     <div className='mr-2 text-sm capitalize'>thành tiền:</div>
                     <div className='text-md text-primary'>{formatCurrency(item.buy_count * item.product.price)}</div>
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             )

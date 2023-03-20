@@ -61,8 +61,8 @@ function AsideFilter({ categories, queryConfig }: Props) {
 
   return (
     // container
-    <div className='px-2 py-3'>
-      <Link to={path.home} className='flex flex-row items-center font-bold'>
+    <div className='py-0 px-0 sm:px-2 sm:py-3'>
+      <Link to={path.home} className='hidden flex-row items-center font-bold sm:flex'>
         {/* bar Icon */}
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -77,18 +77,22 @@ function AsideFilter({ categories, queryConfig }: Props) {
         <span className=''>Tất cả danh mục</span>
       </Link>
       {/* fake border */}
-      <div className='my-4 h-[1px] w-full bg-gray-400'></div>
-      <ul className='text-sm'>
+      <div className='my-4 hidden h-[1px] w-full bg-gray-400 sm:block'></div>
+      {/* category */}
+      <ul className='flex flex-row justify-between overflow-x-auto text-sm sm:block'>
         {categories.map((item) => {
           const isActive = category === item._id
           return (
-            <li key={item._id}>
+            <li
+              key={item._id}
+              className='flex flex-1 justify-center border-r border-red-400 last:border-none sm:justify-start sm:border-none'
+            >
               <Link
                 to={{
                   pathname: path.home,
                   search: createSearchParams({ ...queryConfig, category: item._id, page: '1' }).toString()
                 }}
-                className={classNames('mb-1 flex flex-row items-center text-sm', {
+                className={classNames('mb-0 flex flex-row items-center text-sm sm:mb-1', {
                   'font-bold text-primary': isActive,
                   'font-normal text-black': !isActive
                 })}
@@ -100,7 +104,7 @@ function AsideFilter({ categories, queryConfig }: Props) {
         })}
       </ul>
       {/* Search Filter toolbox */}
-      <Link to={'/'} className='mt-4 flex flex-row items-center'>
+      <Link to={'/'} className='mt-4 hidden sm:flex sm:flex-row sm:items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -118,9 +122,9 @@ function AsideFilter({ categories, queryConfig }: Props) {
         <span className='text-sm font-bold'>Bộ lọc tìm kiếm</span>
       </Link>
       {/* fake border */}
-      <div className='my-4 h-[1px] w-full bg-gray-400'></div>
+      <div className='my-4 hidden h-[1px] w-full bg-gray-400 sm:block'></div>
       {/* Price value filter */}
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='hidden sm:block'>
         <div className='my-5'>Khoảng giá</div>
         <div className='flex flex-row items-center justify-center'>
           {/* cách handle khi input k nhận vào register bằng controller - react-hook-form*/}
@@ -173,15 +177,15 @@ function AsideFilter({ categories, queryConfig }: Props) {
         </Button>
       </form>
       {/* fake border */}
-      <div className='my-4 h-[1px] w-full bg-gray-400'></div>
+      <div className='my-4 hidden h-[1px] w-full bg-gray-400 sm:block'></div>
       {/* Danh gia */}
-      <div className='text-sm'>Đánh giá</div>
+      <div className='hidden text-sm sm:block'>Đánh giá</div>
       <StarSort queryConfig={queryConfig} />
       {/* fake border */}
-      <div className='my-4 h-[1px] w-full bg-gray-400'></div>
+      <div className='my-4 hidden h-[1px] w-full bg-gray-400 sm:block'></div>
       <Button
         onClick={removeFilter}
-        className='mt-4 flex w-full items-center justify-center rounded-sm bg-primary p-2 capitalize text-white hover:opacity-90'
+        className='mt-4 hidden w-full items-center rounded-sm bg-primary p-2 capitalize text-white hover:opacity-90 sm:flex sm:justify-center'
       >
         Xoá tất cả
       </Button>

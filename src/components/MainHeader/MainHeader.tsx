@@ -36,34 +36,41 @@ function MainHeader() {
 
   return (
     <div className='sticky top-0 z-10 w-full  bg-primary text-sm text-white'>
-      <div className='container'>
+      <div className='container relative'>
         <NavHeader />
+
         <div className='grid grid-cols-12 items-center gap-3'>
-          <div className='col-span-2'>
+          {/* logo */}
+          <div className=' absolute top-0 sm:static sm:col-span-2 sm:col-start-1'>
             <Link to={path.home} title='logo'>
               <LogoIcon className='h-6 fill-white sm:h-8 lg:h-11 ' />
             </Link>
           </div>
           {/* search input */}
-          <form onSubmit={handleOnSubmit} className='col-span-9 hidden sm:block'>
-            <div className=' flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
+          <form onSubmit={handleOnSubmit} className='col-span-9 col-start-1 sm:col-start-3 sm:block'>
+            <div className='flex min-w-fit flex-shrink-0 rounded-sm bg-white text-black'>
               <input
+                autoComplete='off'
                 type='text'
                 placeholder='Tìm kiếm sản phẩm'
-                className='flex-grow rounded-sm border-none p-2 outline-none'
+                className=' flex-grow rounded-sm border-none p-0 pl-1 text-xs outline-none sm:block sm:p-2 sm:text-sm'
                 {...register('name')}
               />
-              <button title='searchBtn' className='m-1 cursor-pointer rounded-sm bg-primary px-4 hover:opacity-70'>
+              <button
+                title='searchBtn'
+                className='m-1 cursor-pointer rounded-sm hover:opacity-70 sm:m-1 sm:bg-primary sm:px-4'
+              >
                 <SearchIcon color='white' />
               </button>
             </div>
           </form>
+          {/* cart */}
           <div className='cols-span-1 col-start-12 flex justify-end'>
             <Popover
               // initialState={true}
               renderChildren={
                 // container
-                <div className='max-w-[400px] rounded-md border border-gray-300 bg-white py-4 px-3 text-sm shadow-sm '>
+                <div className='hidden max-w-[400px] rounded-md border border-gray-300 bg-white py-4 px-3 text-sm shadow-sm sm:block '>
                   {/* title */}
                   <div className='mt-1 capitalize text-gray-400'>Sản phẩm mới thêm</div>
 
@@ -81,7 +88,7 @@ function MainHeader() {
                                 />
                               </div>
                               <div className='flex-grow-1 overflow-hidden'>
-                                <div className='truncate'>{item.product.name}</div>
+                                <div className='truncate text-black'>{item.product.name}</div>
                               </div>
                               <div className='flex-shirk-0 ml-4'>
                                 <div className='text-primary'>{formatCurrency(item.price)}</div>

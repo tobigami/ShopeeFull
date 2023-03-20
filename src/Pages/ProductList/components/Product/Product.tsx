@@ -19,22 +19,24 @@ function Product({ product }: Props) {
         <div className='overflow-hidden p-2'>
           <div className='min-h-[32px] text-xs text-black line-clamp-2'>{product.name}</div>
           {/* price */}
-          <div className='mt-2 flex flex-col items-end sm:flex-row sm:items-center'>
-            <div className='flex items-end overflow-hidden text-sm line-through'>
-              <span className='leading-4'>₫</span>
-              <span className='truncate'>{formatCurrency(product.price_before_discount)}</span>
+          <div className='flex flex-row-reverse items-end justify-between sm:block'>
+            <div className='mt-2 flex flex-col items-end sm:flex-row sm:items-center'>
+              <div className='flex items-end overflow-hidden text-sm line-through'>
+                <span className='leading-4'>₫</span>
+                <span className='truncate'>{formatCurrency(product.price_before_discount)}</span>
+              </div>
+              <div className='text-md ml-1 flex items-end overflow-hidden text-primary sm:ml-3'>
+                <span className='leading-3'>₫</span>
+                <span className='truncate'>{formatCurrency(product.price)}</span>
+              </div>
             </div>
-            <div className='text-md ml-3 flex items-end overflow-hidden text-primary'>
-              <span className='leading-3'>₫</span>
-              <span className='truncate'>{formatCurrency(product.price)}</span>
-            </div>
-          </div>
-          {/* star */}
-          <div className='mt-2 flex flex-col items-end sm:mt-3 sm:flex-row sm:justify-end'>
-            <StarRatting ratting={product.rating} />
-            <div className='relative top-[1.5px] ml-1 flex items-end justify-start text-[12px]'>
-              <span className='mr-1'>Đã bán</span>
-              <span>{formatNumberToSocialStyle(product.sold)}</span>
+            {/* star */}
+            <div className='mt-2 flex flex-col items-end sm:mt-3 sm:flex-row sm:justify-end'>
+              <StarRatting ratting={product.rating} />
+              <div className='relative top-[1.5px] ml-1 flex items-end justify-start text-[12px]'>
+                <span className='mr-1'>Đã bán</span>
+                <span>{formatNumberToSocialStyle(product.sold)}</span>
+              </div>
             </div>
           </div>
         </div>
