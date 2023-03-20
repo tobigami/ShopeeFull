@@ -40,7 +40,7 @@ export default function InputFile({ onChange }: Props) {
       <button
         type='button'
         onClick={handleUploadImage}
-        className='mt-3 rounded-sm border border-gray-400 px-4 py-2 capitalize hover:bg-gray-100'
+        className='mt-3 rounded-sm border border-gray-400 p-1 capitalize hover:bg-gray-100 sm:px-4 sm:py-2'
       >
         chọn ảnh
       </button>

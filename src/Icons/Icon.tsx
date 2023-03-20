@@ -58,7 +58,7 @@ export const SearchIcon = ({ width = 6, height = 6, color = 'white' }: Props) =>
       viewBox='0 0 24 24'
       strokeWidth={1.5}
       stroke='currentColor'
-      className={`w-${width} h-${height}`}
+      className={`sm:w-${width} sm:h-${height} h-4 w-4 text-primary sm:text-white`}
       color={color}
     >
       <path

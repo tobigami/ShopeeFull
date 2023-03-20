@@ -130,7 +130,7 @@ export default function ProductDetail() {
   }
   if (!product) return null
   return (
-    <div className=' bg-gray-300 py-8 '>
+    <div className=' bg-gray-300 py-2 sm:py-8 '>
       <Helmet>
         <title>{product.name}</title>
         <meta
@@ -144,9 +144,9 @@ export default function ProductDetail() {
       </Helmet>
       {/* hình ảnh phẩm */}
       <div className='container'>
-        <div className='grid grid-cols-12 gap-9 rounded-sm bg-white py-10 px-10 shadow-sm'>
+        <div className='grid grid-cols-12 gap-2 rounded-sm bg-white p-2 shadow-sm sm:gap-9 sm:p-10'>
           {/* anh san phẩm */}
-          <div className='col-span-5'>
+          <div className='col-span-12 sm:col-span-5'>
             <div
               onMouseMove={handleZoomImage}
               onMouseLeave={handleRemoveZoom}
@@ -210,9 +210,9 @@ export default function ProductDetail() {
             </div>
           </div>
           {/* mo ta san phẩm */}
-          <div className='col-span-7'>
-            <h1 className='text-2xl font-medium'>{product?.name}</h1>
-            <div className='mt-4 flex items-center'>
+          <div className='col-span-12 sm:col-span-7'>
+            <h1 className='text-xl font-medium sm:text-2xl'>{product?.name}</h1>
+            <div className='mt-2 flex items-center sm:mt-4'>
               <div className='pt-[4px] font-[700] text-primary '>{product?.rating}</div>
               <div className='ml-2'>
                 <StarRatting
@@ -229,16 +229,16 @@ export default function ProductDetail() {
               </div>
             </div>
             {/* price */}
-            <div className='mt-12 flex items-center'>
+            <div className='mt-2 flex flex-col items-start sm:mt-12 sm:flex-row sm:items-center'>
               <span className='text-md line-through'>{formatCurrency(product.price_before_discount)}</span>
-              <span className='ml-3 text-4xl font-[500] text-primary'>{formatCurrency(product.price)}</span>
-              <div className='ml-3 rounded-sm bg-primary py-[4px] px-2 text-[12px] uppercase text-white shadow-sm'>
+              <span className='text-4xl font-[500] text-primary sm:ml-3'>{formatCurrency(product.price)}</span>
+              <div className='rounded-sm bg-primary py-[4px] px-2 text-[12px] uppercase text-white shadow-sm sm:ml-3'>
                 {saleValue(product.price_before_discount, product.price)}% Giảm
               </div>
             </div>
             {/* so lượng san phẩm */}
-            <div className='mt-12 flex items-center'>
-              <span className='text-md mr-4 text-gray-400'>số lượng</span>
+            <div className='mt-2 flex items-center sm:mt-12'>
+              <span className='sm:text-md text-sx mr-4 hidden text-gray-400 sm:block'>số lượng</span>
               <QuantityController
                 value={buyCount}
                 max={product.quantity}
@@ -246,13 +246,13 @@ export default function ProductDetail() {
                 onDecrease={handleBuyCount}
                 onType={handleBuyCount}
               />
-              <span className='text-md ml-4 text-gray-400'>{product.quantity} sản phẩm có sẵn</span>
+              <span className='sm:text-md ml-4 text-sm text-gray-400'>{product.quantity} sản phẩm có sẵn</span>
             </div>
             {/* them vao gio hang, mua ngay */}
-            <div className='mt-12 flex items-center'>
+            <div className='mt-2 flex items-center sm:mt-12'>
               <button
                 onClick={handleAddToCart}
-                className='flex items-center justify-center rounded-sm border border-primary bg-primary/10 py-3 px-3 text-lg capitalize text-primary shadow-sm hover:bg-primary/5'
+                className='flex items-center justify-center rounded-sm border border-primary bg-primary/10 p-0.5 text-lg capitalize text-primary shadow-sm hover:bg-primary/5 sm:p-3'
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -260,7 +260,7 @@ export default function ProductDetail() {
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='mr-2 h-5 w-5'
+                  className='h-5 w-5 sm:mr-2'
                 >
                   <path
                     strokeLinecap='round'
@@ -268,23 +268,23 @@ export default function ProductDetail() {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
                   />
                 </svg>
-                <span>Thêm vào giỏ hàng</span>
+                <span className='sm:text-md text-sm'>Thêm vào giỏ hàng</span>
               </button>
 
               <button
                 onClick={buyNow}
-                className='ml-4 flex items-center justify-center rounded-sm border border-primary bg-primary py-3 px-3 text-lg capitalize text-white shadow-sm hover:bg-primary/70'
+                className='ml-2 flex flex-grow items-center justify-center rounded-sm border border-primary bg-primary px-1 py-0.5 text-lg capitalize text-white shadow-sm hover:bg-primary/70 sm:ml-4 sm:p-3'
               >
-                <span>mua ngay</span>
+                <span className='text-sm sm:text-sm'>mua ngay</span>
               </button>
             </div>
           </div>
         </div>
       </div>
       {/* mô tả sản phẩm */}
-      <div className='mt-8 py-4'>
+      <div className='mt-2 py-2 sm:mt-8 sm:py-4'>
         <div className='container'>
-          <div className='rounded-sm bg-white py-6 px-6 shadow-sm'>
+          <div className='rounded-sm bg-white p-6 shadow-sm'>
             <h1 className='rounded-sm bg-gray-200 px-2 py-3 text-lg font-medium uppercase'>chi tiết sản phẩm</h1>
             <div className='my-2 mx-2 text-sm leading-loose'>
               <div
@@ -297,10 +297,8 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      <div className='mt-8 py-4'>
+      <div className='mt-4'>
         <div className='container'>
-          <div className='bg-white capitalize'>sản phẩm tương tự</div>
-
           <div className='mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
             {data?.data.data.products.map((product) => {
               return (

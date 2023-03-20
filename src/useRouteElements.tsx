@@ -7,6 +7,7 @@ import RegisterLayout from './Layouts/RegisterLayout'
 import NotFound from './Pages/404NotFound'
 import Cart from './Pages/Cart'
 import UserLayout from './Pages/User/Layouts'
+// import NotFound from './Pages/404NotFound'
 // import Login from './Pages/Login'
 // import ProductDetail from './Pages/ProductDetail'
 // import ProductList from './Pages/ProductList'
@@ -22,6 +23,7 @@ const Register = lazy(() => import('./Pages/Register'))
 const ChangePassword = lazy(() => import('./Pages/User/Pages/ChangePassword'))
 const History = lazy(() => import('./Pages/User/Pages/History'))
 const Profile = lazy(() => import('./Pages/User/Pages/Profile'))
+const NotFound = lazy(() => import('./Pages/404NotFound'))
 
 /**
  * Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -151,7 +153,9 @@ function useRouteElements() {
       path: '*',
       element: (
         <MainLayout>
-          <NotFound />
+          <Suspense>
+            <NotFound />
+          </Suspense>
         </MainLayout>
       )
     }
